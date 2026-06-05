@@ -1,0 +1,58 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "cppbuild",
+      "label": "C/C++: clang++ build active file",
+      "command": "/usr/bin/clang++",
+      "args": [
+        "-std=c++17",
+        "-fdiagnostics-color=always",
+        "-Wall",
+        "-g",
+
+        "-I${workspaceFolder}/Dependencies/include",
+        "-L${workspaceFolder}/Dependencies/library",
+
+        "${workspaceFolder}/uhan.cpp",
+        "${workspaceFolder}/glad.c",
+
+        "${workspaceFolder}/Dependencies/include/imgui/imgui.cpp",
+        "${workspaceFolder}/Dependencies/include/imgui/imgui_draw.cpp",
+        "${workspaceFolder}/Dependencies/include/imgui/imgui_tables.cpp",
+        "${workspaceFolder}/Dependencies/include/imgui/imgui_widgets.cpp",
+        "${workspaceFolder}/Dependencies/include/imgui/imgui_demo.cpp",
+        "${workspaceFolder}/Dependencies/include/imgui/imgui_impl_glfw.cpp",
+        "${workspaceFolder}/Dependencies/include/imgui/imgui_impl_opengl3.cpp",
+
+        "${workspaceFolder}/Dependencies/library/libglfw.3.4.dylib",
+
+        "-framework",
+        "OpenGL",
+        "-framework",
+        "Cocoa",
+        "-framework",
+        "IOKit",
+        "-framework",
+        "CoreVideo",
+        "-framework",
+        "CoreFoundation",
+
+        "-o",
+        "${workspaceFolder}/app",
+        "-Wno-deprecated"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "compiler: /usr/bin/clang++"
+    }
+  ]
+}
