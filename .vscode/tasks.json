@@ -14,7 +14,7 @@
         "-I${workspaceFolder}/Dependencies/include",
         "-L${workspaceFolder}/Dependencies/library",
 
-        "${workspaceFolder}/uhan.cpp",
+        "${workspaceFolder}/main.cpp",
         "${workspaceFolder}/glad.c",
 
         "${workspaceFolder}/Dependencies/include/imgui/imgui.cpp",
@@ -24,6 +24,8 @@
         "${workspaceFolder}/Dependencies/include/imgui/imgui_demo.cpp",
         "${workspaceFolder}/Dependencies/include/imgui/imgui_impl_glfw.cpp",
         "${workspaceFolder}/Dependencies/include/imgui/imgui_impl_opengl3.cpp",
+
+        "${workspaceFolder}/quad.cpp",
 
         "${workspaceFolder}/Dependencies/library/libglfw.3.4.dylib",
 
