@@ -12,10 +12,14 @@
         "-g",
 
         "-I${workspaceFolder}/Dependencies/include",
-        "-L${workspaceFolder}/Dependencies/library",
+        "-I${workspaceFolder}/Source/Headers",
 
-        "${workspaceFolder}/main.cpp",
-        "${workspaceFolder}/glad.c",
+        "${workspaceFolder}/Dependencies/include/glad/glad.c",
+        "${workspaceFolder}/Source/main.cpp",
+        "${workspaceFolder}/Source/quad.cpp",
+        "${workspaceFolder}/Source/Managers/window_manager.cpp",
+        "${workspaceFolder}/Source/Managers/input_manager.cpp",
+        "${workspaceFolder}/Source/Managers/shaders_reader.cpp",
 
         "${workspaceFolder}/Dependencies/include/imgui/imgui.cpp",
         "${workspaceFolder}/Dependencies/include/imgui/imgui_draw.cpp",
@@ -24,8 +28,6 @@
         "${workspaceFolder}/Dependencies/include/imgui/imgui_demo.cpp",
         "${workspaceFolder}/Dependencies/include/imgui/imgui_impl_glfw.cpp",
         "${workspaceFolder}/Dependencies/include/imgui/imgui_impl_opengl3.cpp",
-
-        "${workspaceFolder}/quad.cpp",
 
         "${workspaceFolder}/Dependencies/library/libglfw.3.4.dylib",
 
@@ -41,7 +43,7 @@
         "CoreFoundation",
 
         "-o",
-        "${workspaceFolder}/app",
+        "${workspaceFolder}/Builds/app",
         "-Wno-deprecated"
       ],
       "options": {
