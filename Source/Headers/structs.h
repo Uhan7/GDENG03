@@ -11,7 +11,7 @@ struct Vec3{
     float z;
 };
 
-struct colorVertex{
+struct ColorVertex{
     Vec3 position;
     Vec3 color;
 };

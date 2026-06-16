@@ -3,7 +3,8 @@
 string ReadShaderFile(const char* path)
 {
     ifstream file(path);
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         cout << "Error: ReadShaderFile failed at path: " << path << endl;
         return "";
     }
@@ -13,7 +14,8 @@ string ReadShaderFile(const char* path)
     return buffer.str();
 }
 
-unsigned int CompileShader(GLenum shaderType, const char* path){
+unsigned int CompileShader(GLenum shaderType, const char* path)
+{
     int success;
     char infoLog[512];
 
@@ -35,7 +37,8 @@ unsigned int CompileShader(GLenum shaderType, const char* path){
     return shader;
 }
 
-unsigned int CreateShaderProgram(unsigned int vertexShader, unsigned int fragmentShader){
+unsigned int CreateShaderProgram(unsigned int vertexShader, unsigned int fragmentShader)
+{
     int success;
     char infoLog[512];
 
@@ -46,7 +49,8 @@ unsigned int CreateShaderProgram(unsigned int vertexShader, unsigned int fragmen
     glLinkProgram(shaderProgram);
 
     glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if (!success) {
+    if (!success)
+    {
         glGetProgramInfoLog(shaderProgram, 512, nullptr, infoLog);
         cout << "Error: CreateShaderProgram Failed. Logs:\n" << infoLog << endl;
     }

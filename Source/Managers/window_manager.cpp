@@ -1,7 +1,7 @@
 #include "window_manager.h"
 
-GLFWwindow* SetupWindow(int width, int height, const char *title, GLFWmonitor *monitor, GLFWwindow *share){
-    
+GLFWwindow* SetupWindow(int width, int height, const char *title, GLFWmonitor *monitor, GLFWwindow *share)
+{
     // Load GLFW
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

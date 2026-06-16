@@ -9,6 +9,12 @@ Quad::Quad(Vec3 p1, Vec3 p2, Vec3 p3, Vec3 p4, Vec3 color){
     SetupMesh();
 }
 
+Quad::~Quad(){
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
+}
+
 void Quad::SetupMesh(){
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -22,10 +28,10 @@ void Quad::SetupMesh(){
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(colorVertex), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ColorVertex), (void*)0);
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(colorVertex), (void*)sizeof(Vec3));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ColorVertex), (void*)sizeof(Vec3));
     glEnableVertexAttribArray(1);
 
     glBindVertexArray(0);
@@ -33,6 +39,12 @@ void Quad::SetupMesh(){
 
 void Quad::Draw(unsigned int shaderProgram){
     glUseProgram(shaderProgram);
+    int offsetLoc = glGetUniformLocation(shaderProgram, "offset");
+    glUniform3f(offsetLoc, transform.position.x, transform.position.y, transform.position.z);
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
+
+void Quad::SetPosition(Vec3 newPosition){
+    transform.position = newPosition;
 }
