@@ -48,3 +48,15 @@ void Quad::Draw(unsigned int shaderProgram){
 void Quad::SetPosition(Vec3 newPosition){
     transform.position = newPosition;
 }
+
+Quad Quad::MakeSquare(Vec3 center, float sideLength, Vec3 color){
+
+    float halfLength = sideLength / 2;
+    return Quad(
+        {center.x - halfLength, center.y + halfLength, 0.0f},
+        {center.x + halfLength, center.y + halfLength, 0.0f},
+        {center.x - halfLength, center.y - halfLength, 0.0f},
+        {center.x + halfLength, center.y - halfLength, 0.0f},
+        color
+    );
+}

@@ -21,4 +21,6 @@ class Quad{
         void Draw(unsigned int shaderProgram);
         void SetupMesh();
         void SetPosition(Vec3 newPosition);
+
+        static Quad MakeSquare(Vec3 center, float sideLength, Vec3 color);
 };
