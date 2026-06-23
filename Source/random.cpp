@@ -3,6 +3,6 @@
 float RandomFloat(float min, float max){
     static random_device rd;
     static mt19937 gen(rd());
-    uniform_int_distribution<int> distrib(min, max);
+    uniform_real_distribution<float> distrib(min, max);
     return distrib(gen);
 }

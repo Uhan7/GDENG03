@@ -34,18 +34,19 @@ int main()
     unsigned int shaderProgram = CreateShaderProgram(vertexShader, fragmentShader);
 
     // Setup more variables
-    float direction = 0.0f;
-    float speed = 0.01f;
+    // float direction = 0.0f;
+    // float speed = 0.01f;
 
     // Make our epic shits
     Quad square = Quad::MakeSquare({0.0f, 0.0f, 0.0f}, 0.25f, {1.0f, 1.0f, 1.0f});
+    glfwSetWindowUserPointer(window, &square);
+    glfwSetKeyCallback(window, key_callback);
 
     // UPDATE EVERY FRAME
     while (!glfwWindowShouldClose(window))
     {
         // Check for Inputs
         glfwPollEvents();
-        glfwSetKeyCallback(window, key_callback);
 
         // Setup background
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -66,7 +67,12 @@ int main()
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+    Quad* square = static_cast<Quad*>(glfwGetWindowUserPointer(window));
+
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) glfwSetWindowShouldClose(window, GLFW_TRUE);
-    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) cout << "Spawned!" << endl;
+    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS){
+        cout << "Spawned!" << endl;
+        square->SetPosition({RandomFloat(-0.75f, 0.75f), RandomFloat(-0.75f, 0.75f), 0.0f});
+    }
     if (key == GLFW_KEY_DELETE && action == GLFW_PRESS) cout << "Despawned!" << endl;
 }
