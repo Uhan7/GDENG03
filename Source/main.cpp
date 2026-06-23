@@ -81,5 +81,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         newSquare->transform.speedY = RandomFloat(-0.01f, 0.01f);
         squares->push_back(std::move(newSquare));
     }
-    if (key == GLFW_KEY_DELETE && action == GLFW_PRESS) cout << "Despawned!" << endl;
+    if (key == GLFW_KEY_MINUS && action == GLFW_PRESS){
+        cout << "Despawned!" << endl;
+        if (squares->size() > 0) squares->pop_back();
+    }
+    if (key == GLFW_KEY_BACKSPACE && action == GLFW_PRESS){
+        cout << "Despawned All!" << endl;
+        if (squares->size() > 0) squares->clear();
+    }
 }

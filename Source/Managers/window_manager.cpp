@@ -20,6 +20,7 @@ GLFWwindow* SetupWindow(int width, int height, const char *title, GLFWmonitor *m
         return nullptr;
     }
     glfwMakeContextCurrent(window);
+    glfwSwapInterval(1);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     // Load GLAD
