@@ -1,9 +1,12 @@
 #pragma once
 
 #include <glad/glad.h>
+#include <memory>
 
 #include "structs.h"
 #include "transform.h"
+
+using namespace std;
 
 class Quad{
     public:
@@ -22,5 +25,5 @@ class Quad{
         void SetupMesh();
         void SetPosition(Vec3 newPosition);
 
-        static Quad MakeSquare(Vec3 center, float sideLength, Vec3 color);
+        static unique_ptr<Quad> MakeSquare(Vec3 center, float sideLength, Vec3 color);
 };

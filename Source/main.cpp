@@ -1,6 +1,7 @@
 // Normal Includes
 #include <iostream>
 #include <filesystem>
+#include <memory>
 
 // Dependencies
 #include <glad/glad.h>
@@ -38,8 +39,8 @@ int main()
     // float speed = 0.01f;
 
     // Make our epic shits
-    Quad square = Quad::MakeSquare({0.0f, 0.0f, 0.0f}, 0.25f, {1.0f, 1.0f, 1.0f});
-    glfwSetWindowUserPointer(window, &square);
+    vector<unique_ptr<Quad>> squares;
+    glfwSetWindowUserPointer(window, &squares);
     glfwSetKeyCallback(window, key_callback);
 
     // UPDATE EVERY FRAME
@@ -53,7 +54,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Render our shits
-        square.Draw(shaderProgram);
+        for (unique_ptr<Quad>& square : squares) square->Draw(shaderProgram);
 
         // Show next frame
         glfwSwapBuffers(window);
@@ -67,12 +68,13 @@ int main()
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    Quad* square = static_cast<Quad*>(glfwGetWindowUserPointer(window));
+    vector<unique_ptr<Quad>>* squares = static_cast<vector<unique_ptr<Quad>>*>(glfwGetWindowUserPointer(window));
 
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) glfwSetWindowShouldClose(window, GLFW_TRUE);
     if (key == GLFW_KEY_SPACE && action == GLFW_PRESS){
         cout << "Spawned!" << endl;
-        square->SetPosition({RandomFloat(-0.75f, 0.75f), RandomFloat(-0.75f, 0.75f), 0.0f});
+        // squares->push_back(Quad::MakeSquare({0.0f, 0.0f, 0.0f}, 0.25f, {1.0f, 1.0f, 1.0f}));
+        squares->push_back(Quad::MakeSquare({RandomFloat(-0.75f, 0.75f),RandomFloat(-0.75f, 0.75f), 0.0f}, 0.25f, {1.0f, 1.0f, 1.0f}));
     }
     if (key == GLFW_KEY_DELETE && action == GLFW_PRESS) cout << "Despawned!" << endl;
 }

@@ -49,14 +49,13 @@ void Quad::SetPosition(Vec3 newPosition){
     transform.position = newPosition;
 }
 
-Quad Quad::MakeSquare(Vec3 center, float sideLength, Vec3 color){
-
+unique_ptr<Quad> Quad::MakeSquare(Vec3 center, float sideLength, Vec3 color){
     float halfLength = sideLength / 2;
-    return Quad(
-        {center.x - halfLength, center.y + halfLength, 0.0f},
-        {center.x + halfLength, center.y + halfLength, 0.0f},
-        {center.x - halfLength, center.y - halfLength, 0.0f},
-        {center.x + halfLength, center.y - halfLength, 0.0f},
+    return make_unique<Quad>(
+        Vec3{center.x - halfLength, center.y + halfLength, 0.0f},
+        Vec3{center.x + halfLength, center.y + halfLength, 0.0f},
+        Vec3{center.x - halfLength, center.y - halfLength, 0.0f},
+        Vec3{center.x + halfLength, center.y - halfLength, 0.0f},
         color
     );
 }
