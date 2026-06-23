@@ -1,13 +1,13 @@
 // Normal Includes
 #include <iostream>
 #include <filesystem>
-#include <random>
 
 // Dependencies
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 // Source Files
+#include "random.h"
 #include "config.h"
 #include "structs.h"
 #include "quad.h"
@@ -25,17 +25,12 @@ bool space_pressed = false; // temporary bc this looks stupid
 
 int main()
 {
-    // Setup randoms and other things on program start
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_real_distribution<float> dis(-1.0f, 1.0f);
-
     // Setup a Window
     GLFWwindow* window = SetupWindow(SCR_WIDTH, SCR_HEIGHT, "NARANJO GDENG03", nullptr, nullptr);
     if (window == nullptr) return -1;
 
     // Setup our Input Manager
-    InputManager input_manager;
+    // InputManager input_manager;
 
     // Setup our shaders
     unsigned int vertexShader = CompileShader(GL_VERTEX_SHADER, "Shaders/default.vert");
@@ -55,19 +50,16 @@ int main()
     //     { 1.0f,  1.0f, 1.0f});
 
     // Quad square = Quad::MakeSquare({0.0f, 0.0f, 0.0f}, 0.25f, {1.0f, 1.0f, 1.0f});
-    Quad square = Quad::MakeSquare({dis(gen), dis(gen), 0.0f}, 0.25f, {1.0f, 1.0f, 1.0f});
+    Quad square = Quad::MakeSquare({RandomFloat(-0.75f, 0.75f), RandomFloat(-0.75f, 0.75f), 0.0f}, 0.25f, {1.0f, 1.0f, 1.0f});
 
     // UPDATE EVERY FRAME
     while (!glfwWindowShouldClose(window))
     {
         // Setup for checking inputs every frame
         glfwPollEvents();
-        input_manager.ProcessInput(window);
-        InputState current_inputs = input_manager.GetInputs(); // Bruh do u even need this..
 
-        // // Actual input stuff
+        // Actual input stuff
         glfwSetKeyCallback(window, key_callback);
-        if (space_pressed) square.SetPosition({dis(gen), dis(gen), 0.0f});
 
         // if (current_inputs.exit){
         //     cout << "Exiting Application!" << endl;

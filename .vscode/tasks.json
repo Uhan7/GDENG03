@@ -17,6 +17,7 @@
         "${workspaceFolder}/Dependencies/include/glad/glad.c",
         "${workspaceFolder}/Source/main.cpp",
         "${workspaceFolder}/Source/quad.cpp",
+        "${workspaceFolder}/Source/random.cpp",
         "${workspaceFolder}/Source/Managers/window_manager.cpp",
         "${workspaceFolder}/Source/Managers/input_manager.cpp",
         "${workspaceFolder}/Source/Managers/shaders_reader.cpp",
