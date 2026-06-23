@@ -18,6 +18,7 @@
         "${workspaceFolder}/Source/main.cpp",
         "${workspaceFolder}/Source/quad.cpp",
         "${workspaceFolder}/Source/random.cpp",
+        "${workspaceFolder}/Source/transform.cpp",
         "${workspaceFolder}/Source/Managers/window_manager.cpp",
         "${workspaceFolder}/Source/Managers/input_manager.cpp",
         "${workspaceFolder}/Source/Managers/shaders_reader.cpp",
