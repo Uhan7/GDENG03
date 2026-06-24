@@ -47,11 +47,15 @@ int main()
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // Update our shits
-        // Imaginary code
+        // Move our shits
+        for (std::unique_ptr<Quad>& square : squares){
+            square->transform.MoveWithVelocity();
+            if (square->transform.position.x > 0.9f || square->transform.position.x < -0.9f) square->transform.velocity.x *= -1;
+            if (square->transform.position.y > 0.9f || square->transform.position.y < -0.9f) square->transform.velocity.y *= -1;
+        }
 
         // Render our shits
-        // Imaginary draw code
+        for (std::unique_ptr<Quad>& square : squares) square->Draw(shaderProgram);
 
         // Show next frame
         glfwSwapBuffers(window);
@@ -65,5 +69,22 @@ int main()
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+    std::vector<std::unique_ptr<Quad>>* squares = static_cast<std::vector<std::unique_ptr<Quad>>*>(glfwGetWindowUserPointer(window));
+
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) glfwSetWindowShouldClose(window, GLFW_TRUE);
+    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS){
+        std::cout << "Spawned!" << std::endl;
+        std::unique_ptr<Quad> newSquare = Quad::MakeSquare({0.0f, 0.0f, 0.0f}, 0.2f, {RandomFloat(0.f, 1.f), RandomFloat(0.f, 1.f), RandomFloat(0.f, 1.f)});
+        newSquare->transform.velocity.x = RandomFloat(-0.01f, 0.01f);
+        newSquare->transform.velocity.y = RandomFloat(-0.01f, 0.01f);
+        squares->push_back(std::move(newSquare));
+    }
+    if (key == GLFW_KEY_MINUS && action == GLFW_PRESS){
+        std::cout << "Despawned!" << std::endl;
+        if (squares->size() > 0) squares->pop_back();
+    }
+    if (key == GLFW_KEY_BACKSPACE && action == GLFW_PRESS){
+        std::cout << "Despawned All!" << std::endl;
+        if (squares->size() > 0) squares->clear();
+    }
 }

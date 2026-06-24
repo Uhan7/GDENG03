@@ -10,7 +10,8 @@ void Transform::ChangePosition(Vec3 offsetPosition){
     position.z += offsetPosition.z;
 }
 
-void Transform::MoveWithSpeed(){
-    position.x += speedX;
-    position.y += speedY;
+void Transform::MoveWithVelocity(){
+    position.x += velocity.x;
+    position.y += velocity.y;
+    position.z += velocity.z;
 }
