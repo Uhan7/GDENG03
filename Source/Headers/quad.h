@@ -6,8 +6,6 @@
 #include "structs.h"
 #include "transform.h"
 
-using namespace std;
-
 class Quad{
     public:
         Quad(Vec3 p1, Vec3 p2, Vec3 p3, Vec3 p4, Vec3 color);
@@ -25,5 +23,5 @@ class Quad{
         void SetupMesh();
         void SetPosition(Vec3 newPosition);
 
-        static unique_ptr<Quad> MakeSquare(Vec3 center, float sideLength, Vec3 color);
+        static std::unique_ptr<Quad> MakeSquare(Vec3 center, float sideLength, Vec3 color);
 };

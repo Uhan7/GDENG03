@@ -7,8 +7,6 @@
 #include <sstream>
 #include <string>
 
-using namespace std;
-
-string ReadShaderFile(const char* path);
+std::string ReadShaderFile(const char* path);
 unsigned int CompileShader(GLenum shaderType, const char* path);
 unsigned int CreateShaderProgram(unsigned int vertexShader, unsigned int fragmentShader);

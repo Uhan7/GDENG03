@@ -49,9 +49,9 @@ void Quad::SetPosition(Vec3 newPosition){
     transform.position = newPosition;
 }
 
-unique_ptr<Quad> Quad::MakeSquare(Vec3 center, float sideLength, Vec3 color){
+std::unique_ptr<Quad> Quad::MakeSquare(Vec3 center, float sideLength, Vec3 color){
     float halfLength = sideLength / 2;
-    return make_unique<Quad>(
+    return std::make_unique<Quad>(
         Vec3{center.x - halfLength, center.y + halfLength, 0.0f},
         Vec3{center.x + halfLength, center.y + halfLength, 0.0f},
         Vec3{center.x - halfLength, center.y - halfLength, 0.0f},

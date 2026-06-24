@@ -1,6 +1,7 @@
 // Normal Includes
 #include <iostream>
 #include <filesystem>
+#include <string>
 #include <memory>
 
 // Dependencies
@@ -15,9 +16,6 @@
 #include "window_manager.h"
 #include "input_manager.h"
 #include "shaders_reader.h"
-
-// Namespaces
-using namespace std;
 
 // Prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -35,7 +33,7 @@ int main()
     unsigned int shaderProgram = CreateShaderProgram(vertexShader, fragmentShader);
 
     // Make our epic shits
-    vector<unique_ptr<Quad>> squares;
+    std::vector<std::unique_ptr<Quad>> squares;
     glfwSetWindowUserPointer(window, &squares);
     glfwSetKeyCallback(window, key_callback);
 
@@ -50,14 +48,14 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Move our shits
-        for (unique_ptr<Quad>& square : squares){
+        for (std::unique_ptr<Quad>& square : squares){
             square->transform.MoveWithSpeed();
             if (square->transform.position.x > 0.9f || square->transform.position.x < -0.9f) square->transform.speedX *= -1;
             if (square->transform.position.y > 0.9f || square->transform.position.y < -0.9f) square->transform.speedY *= -1;
         }
 
         // Render our shits
-        for (unique_ptr<Quad>& square : squares) square->Draw(shaderProgram);
+        for (std::unique_ptr<Quad>& square : squares) square->Draw(shaderProgram);
 
         // Show next frame
         glfwSwapBuffers(window);
@@ -71,22 +69,22 @@ int main()
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    vector<unique_ptr<Quad>>* squares = static_cast<vector<unique_ptr<Quad>>*>(glfwGetWindowUserPointer(window));
+    std::vector<std::unique_ptr<Quad>>* squares = static_cast<std::vector<std::unique_ptr<Quad>>*>(glfwGetWindowUserPointer(window));
 
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) glfwSetWindowShouldClose(window, GLFW_TRUE);
     if (key == GLFW_KEY_SPACE && action == GLFW_PRESS){
-        cout << "Spawned!" << endl;
-        unique_ptr<Quad> newSquare = Quad::MakeSquare({0.0f, 0.0f, 0.0f}, 0.2f, {RandomFloat(0.f, 1.f), RandomFloat(0.f, 1.f), RandomFloat(0.f, 1.f)});
+        std::cout << "Spawned!" << std::endl;
+        std::unique_ptr<Quad> newSquare = Quad::MakeSquare({0.0f, 0.0f, 0.0f}, 0.2f, {RandomFloat(0.f, 1.f), RandomFloat(0.f, 1.f), RandomFloat(0.f, 1.f)});
         newSquare->transform.speedX = RandomFloat(-0.01f, 0.01f);
         newSquare->transform.speedY = RandomFloat(-0.01f, 0.01f);
         squares->push_back(std::move(newSquare));
     }
     if (key == GLFW_KEY_MINUS && action == GLFW_PRESS){
-        cout << "Despawned!" << endl;
+        std::cout << "Despawned!" << std::endl;
         if (squares->size() > 0) squares->pop_back();
     }
     if (key == GLFW_KEY_BACKSPACE && action == GLFW_PRESS){
-        cout << "Despawned All!" << endl;
+        std::cout << "Despawned All!" << std::endl;
         if (squares->size() > 0) squares->clear();
     }
 }

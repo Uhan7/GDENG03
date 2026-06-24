@@ -15,7 +15,7 @@ GLFWwindow* SetupWindow(int width, int height, const char *title, GLFWmonitor *m
     GLFWwindow* window = glfwCreateWindow(width, height, title, monitor, share);
     if (window == nullptr)
     {
-        cout << "Failed to create GLFW window" << endl;
+        std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         return nullptr;
     }
@@ -26,7 +26,7 @@ GLFWwindow* SetupWindow(int width, int height, const char *title, GLFWmonitor *m
     // Load GLAD
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        cout << "Failed to initialize GLAD" << endl;
+        std::cout << "Failed to initialize GLAD" << std::endl;
         return nullptr;
     }
     return window;
