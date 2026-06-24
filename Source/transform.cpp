@@ -1,10 +1,10 @@
 #include "transform.h"
 
-void Transform::SetPosition(Vec3 newPosition){
+void Transform::SetPosition(glm::vec3 newPosition){
     position = newPosition;
 }
 
-void Transform::ChangePosition(Vec3 offsetPosition){
+void Transform::ChangePosition(glm::vec3 offsetPosition){
     position.x += offsetPosition.x;
     position.y += offsetPosition.y;
     position.z += offsetPosition.z;

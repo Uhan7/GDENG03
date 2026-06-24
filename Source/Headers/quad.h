@@ -3,12 +3,14 @@
 #include <glad/glad.h>
 #include <memory>
 
+#include <glm/vec3.hpp>
+
 #include "structs.h"
 #include "transform.h"
 
 class Quad{
     public:
-        Quad(Vec3 p1, Vec3 p2, Vec3 p3, Vec3 p4, Vec3 color);
+        Quad(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec3 p4, glm::vec3 color);
         ~Quad();
 
         Transform transform; // Ermm bad practice to put this in public? idk what if idgaf lol
@@ -21,7 +23,7 @@ class Quad{
     public:
         void Draw(unsigned int shaderProgram);
         void SetupMesh();
-        void SetPosition(Vec3 newPosition);
+        void SetPosition(glm::vec3 newPosition);
 
-        static std::unique_ptr<Quad> MakeSquare(Vec3 center, float sideLength, Vec3 color);
+        static std::unique_ptr<Quad> MakeSquare(glm::vec3 center, float sideLength, glm::vec3 color);
 };

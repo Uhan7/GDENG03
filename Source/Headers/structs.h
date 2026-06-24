@@ -1,17 +1,8 @@
 #pragma once
 
-struct Vec2{
-    float x;
-    float y;
-};
-
-struct Vec3{
-    float x;
-    float y;
-    float z;
-};
+#include <glm/vec3.hpp>
 
 struct ColorVertex{
-    Vec3 position;
-    Vec3 color;
+    glm::vec3 position;
+    glm::vec3 color;
 };

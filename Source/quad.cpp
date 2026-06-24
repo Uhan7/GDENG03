@@ -1,6 +1,6 @@
 #include "quad.h"
 
-Quad::Quad(Vec3 p1, Vec3 p2, Vec3 p3, Vec3 p4, Vec3 color){
+Quad::Quad(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec3 p4, glm::vec3 color){
     vertices[0] = {{p1.x, p1.y, 0.0f}, color};
     vertices[1] = {{p2.x, p2.y, 0.0f}, color};
     vertices[2] = {{p3.x, p3.y, 0.0f}, color};
@@ -31,7 +31,7 @@ void Quad::SetupMesh(){
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ColorVertex), (void*)0);
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ColorVertex), (void*)sizeof(Vec3));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ColorVertex), (void*)sizeof(glm::vec3));
     glEnableVertexAttribArray(1);
 
     glBindVertexArray(0);
@@ -45,17 +45,17 @@ void Quad::Draw(unsigned int shaderProgram){
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
-void Quad::SetPosition(Vec3 newPosition){
+void Quad::SetPosition(glm::vec3 newPosition){
     transform.position = newPosition;
 }
 
-std::unique_ptr<Quad> Quad::MakeSquare(Vec3 center, float sideLength, Vec3 color){
+std::unique_ptr<Quad> Quad::MakeSquare(glm::vec3 center, float sideLength, glm::vec3 color){
     float halfLength = sideLength / 2;
     return std::make_unique<Quad>(
-        Vec3{center.x - halfLength, center.y + halfLength, 0.0f},
-        Vec3{center.x + halfLength, center.y + halfLength, 0.0f},
-        Vec3{center.x - halfLength, center.y - halfLength, 0.0f},
-        Vec3{center.x + halfLength, center.y - halfLength, 0.0f},
+        glm::vec3{center.x - halfLength, center.y + halfLength, 0.0f},
+        glm::vec3{center.x + halfLength, center.y + halfLength, 0.0f},
+        glm::vec3{center.x - halfLength, center.y - halfLength, 0.0f},
+        glm::vec3{center.x + halfLength, center.y - halfLength, 0.0f},
         color
     );
 }
