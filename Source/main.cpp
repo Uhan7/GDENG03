@@ -17,6 +17,7 @@
 #include "structs.h"
 #include "quad.h"
 #include "circle.h"
+#include "cube.h"
 #include "window_manager.h"
 #include "input_manager.h"
 #include "shaders_reader.h"
@@ -42,11 +43,15 @@ int main()
 
     // Make our epic camera
     PerspectiveCamera camera(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, -90.0f, 0.0f));
-    camera.cameraMoveSpeed = 0.01f;
+    float cameraNormalSpeed = 0.01f;
+    float cameraFastSpeed = 0.03f;
+    camera.cameraMoveSpeed = cameraNormalSpeed;
+    glEnable(GL_DEPTH_TEST);
 
     // Make our epic shits
-    Circle circle = Circle({-0.5f, 0.5f, 0.0f}, 0.25f, {1.0f, 1.0f, 1.0f});
-    Quad square = Quad::MakeSquare({0.5f, 0.5f, 0.0f}, 0.5f, {1.0f, 1.0f, 1.0f});
+    Circle circle = Circle({-0.5f, 0.5f, 1.0f}, 0.25f, {1.0f, 0.0f, 0.0f});
+    Quad square = Quad::MakeSquare({0.5f, 0.5f, 0.0f}, 0.5f, {0.0f, 1.0f, 0.0f});
+    Cube cube = Cube({-0.5f, -0.5f, 0.0f}, 0.5f, {0.0f, 0.0f, 1.0f});
 
     // Setup Mouse
     glm::dvec2 currentMousePosition = {0.0, 0.0};
@@ -83,6 +88,9 @@ int main()
         if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) camera.MovePosition('U');
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) camera.MovePosition('D');
 
+        if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) camera.cameraMoveSpeed = cameraFastSpeed;
+        else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE) camera.cameraMoveSpeed = cameraNormalSpeed;
+
         // if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) camera.Rotate('U');
         // if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) camera.Rotate('L');
         // if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) camera.Rotate('D');
@@ -92,7 +100,7 @@ int main()
 
         // Setup background
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Update our shits
         camera.Update(shaderProgram, SCR_WIDTH, SCR_HEIGHT);
@@ -100,6 +108,11 @@ int main()
         // Render our shits
         circle.Draw(shaderProgram);
         square.Draw(shaderProgram);
+        cube.Draw(shaderProgram);
+
+        // Method of Rendering
+        if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        else if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_RELEASE) glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
         // Show next frame
         glfwSwapBuffers(window);

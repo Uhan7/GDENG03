@@ -2,8 +2,9 @@
 
 Circle::Circle(glm::vec3 origin, float radius, glm::vec3 color){
     transform.SetPosition(origin);
-    vertices.push_back({glm::vec3(0.0f, 0.0f, 0.0f), color}); // Center Vertex First
     
+    vertices.push_back({glm::vec3(0.0f, 0.0f, 0.0f), color}); // Center Vertex First
+
     for (int i = 0; i <= segments; i++){
         float angle = (2 * M_PI * i) / segments;
         float x = radius * std::cos(angle);
