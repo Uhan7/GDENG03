@@ -27,6 +27,7 @@ public:
 
     void MovePosition(char inputDirection);
     void Rotate(char inputDirection);
+    void RotateByMouse(float yawOffset, float pitchOffset);
     virtual void Update(unsigned int shaderProgram, int screenWidth, int screenHeight) = 0;
 
     glm::vec3 GetCameraPosition();

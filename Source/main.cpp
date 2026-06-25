@@ -26,6 +26,7 @@
 
 // Prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
 // Main Function!
 int main()
@@ -47,13 +48,32 @@ int main()
     Circle circle = Circle({-0.5f, 0.5f, 0.0f}, 0.25f, {1.0f, 1.0f, 1.0f});
     Quad square = Quad::MakeSquare({0.5f, 0.5f, 0.0f}, 0.5f, {1.0f, 1.0f, 1.0f});
 
-    // Setup Input
+    // Setup Mouse
+    glm::dvec2 currentMousePosition = {0.0, 0.0};
+    glm::vec2 lastMousePosition = {SCR_WIDTH / 2.0f, SCR_HEIGHT / 2.0f};
+    float mouseSensitivity = 0.1f;
+
+    // Setup Key Input
     glfwSetKeyCallback(window, key_callback);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
 
     // UPDATE EVERY FRAME
     while (!glfwWindowShouldClose(window))
     {
-        // Check for Inputs
+        // Check for Mouse
+        glfwGetCursorPos(window, &currentMousePosition.x, &currentMousePosition.y);
+
+        float xOffset = (float)currentMousePosition.x - lastMousePosition.x;
+        float yOffset = lastMousePosition.y - (float)currentMousePosition.y;
+
+        lastMousePosition.x = (float)currentMousePosition.x;
+        lastMousePosition.y = (float)currentMousePosition.y;
+        xOffset *= mouseSensitivity;
+        yOffset *= mouseSensitivity;
+
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // We hide + lock the mouse
+
+        // Check for Key Inputs
         glfwPollEvents();
 
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) camera.MovePosition('F');
@@ -63,10 +83,12 @@ int main()
         if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) camera.MovePosition('U');
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) camera.MovePosition('D');
 
-        if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) camera.Rotate('U');
-        if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) camera.Rotate('L');
-        if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) camera.Rotate('D');
-        if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) camera.Rotate('R');
+        // if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) camera.Rotate('U');
+        // if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) camera.Rotate('L');
+        // if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) camera.Rotate('D');
+        // if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) camera.Rotate('R');
+
+        camera.RotateByMouse(xOffset, yOffset);
 
         // Setup background
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -89,7 +111,13 @@ int main()
     return 0;
 }
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods){
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) glfwSetWindowShouldClose(window, GLFW_TRUE);
+}
+
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods){
+    if (button == GLFW_MOUSE_BUTTON_RIGHT){
+        if (action == GLFW_PRESS) std::cout << ("RMB Yes") << std::endl;
+        else if (action == GLFW_RELEASE) std::cout << ("RMB No") << std::endl;
+    }
 }

@@ -36,6 +36,12 @@ void Camera::Rotate(char inputDirection){
     }
 }
 
+void Camera::RotateByMouse(float yawOffset, float pitchOffset){
+    yaw += yawOffset;
+    pitch += pitchOffset;
+    pitch = glm::clamp(pitch, -89.9f, 89.9f);
+}
+
 glm::vec3 Camera::GetCameraPosition(){
     return cameraPosition;
 }
