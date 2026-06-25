@@ -16,6 +16,7 @@
 #include "config.h"
 #include "structs.h"
 #include "quad.h"
+#include "circle.h"
 #include "window_manager.h"
 #include "input_manager.h"
 #include "shaders_reader.h"
@@ -36,8 +37,9 @@ int main()
     unsigned int shaderProgram = CreateShaderProgram(vertexShader, fragmentShader);
 
     // Make our epic shits
-    std::vector<std::unique_ptr<Quad>> squares;
-    glfwSetWindowUserPointer(window, &squares);
+    Circle circle = Circle({0.0f, 0.0f, 0.0f}, 0.25f, {1.0f, 1.0f, 1.0f});
+
+    // Setup Input
     glfwSetKeyCallback(window, key_callback);
 
     // UPDATE EVERY FRAME
@@ -54,7 +56,7 @@ int main()
         // Imaginary code
 
         // Render our shits
-        // Imaginary draw code
+        circle.Draw(shaderProgram);
 
         // Show next frame
         glfwSwapBuffers(window);
