@@ -20,6 +20,9 @@
 #include "window_manager.h"
 #include "input_manager.h"
 #include "shaders_reader.h"
+#include "Camera_Scripts/camera.h"
+#include "Camera_Scripts/perspective_camera.h"
+#include "Camera_Scripts/orthographic_camera.h"
 
 // Prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -36,6 +39,10 @@ int main()
     unsigned int fragmentShader = CompileShader(GL_FRAGMENT_SHADER, "Shaders/default.frag");
     unsigned int shaderProgram = CreateShaderProgram(vertexShader, fragmentShader);
 
+    // Make our epic camera
+    PerspectiveCamera camera(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, -90.0f, 0.0f));
+    camera.cameraMoveSpeed = 0.01f;
+
     // Make our epic shits
     Circle circle = Circle({-0.5f, 0.5f, 0.0f}, 0.25f, {1.0f, 1.0f, 1.0f});
     Quad square = Quad::MakeSquare({0.5f, 0.5f, 0.0f}, 0.5f, {1.0f, 1.0f, 1.0f});
@@ -49,12 +56,24 @@ int main()
         // Check for Inputs
         glfwPollEvents();
 
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) camera.MovePosition('F');
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) camera.MovePosition('B');
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) camera.MovePosition('L');
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) camera.MovePosition('R');
+        if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) camera.MovePosition('U');
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) camera.MovePosition('D');
+
+        if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) camera.Rotate('U');
+        if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) camera.Rotate('L');
+        if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) camera.Rotate('D');
+        if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) camera.Rotate('R');
+
         // Setup background
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Update our shits
-        // Imaginary code
+        camera.Update(shaderProgram, SCR_WIDTH, SCR_HEIGHT);
 
         // Render our shits
         circle.Draw(shaderProgram);

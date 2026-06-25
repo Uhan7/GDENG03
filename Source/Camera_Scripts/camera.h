@@ -16,8 +16,10 @@ protected:
     
     float yaw = -90.0f;
     float pitch = 0.0f;
-    float cameraMoveSpeed = 0.5f;
-    float cameraOrientationSpeed = 1.0f;
+
+public:
+    float cameraMoveSpeed = 0.5f; // Just public these bro lol who gaf
+    float cameraOrientationSpeed = 1.0f; // Just public these bro lol who gaf
 
 public:
     Camera(glm::vec3 positionVector, glm::vec3 directionVector);
