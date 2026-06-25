@@ -49,7 +49,18 @@ void Quad::SetPosition(glm::vec3 newPosition){
     transform.position = newPosition;
 }
 
-std::unique_ptr<Quad> Quad::MakeSquare(glm::vec3 center, float sideLength, glm::vec3 color){
+Quad Quad::MakeSquare(glm::vec3 center, float sideLength, glm::vec3 color){
+    float halfLength = sideLength / 2;
+    return Quad(
+        glm::vec3{center.x - halfLength, center.y + halfLength, 0.0f},
+        glm::vec3{center.x + halfLength, center.y + halfLength, 0.0f},
+        glm::vec3{center.x - halfLength, center.y - halfLength, 0.0f},
+        glm::vec3{center.x + halfLength, center.y - halfLength, 0.0f},
+        color
+    );
+}
+
+std::unique_ptr<Quad> Quad::MakeSquarePtr(glm::vec3 center, float sideLength, glm::vec3 color){
     float halfLength = sideLength / 2;
     return std::make_unique<Quad>(
         glm::vec3{center.x - halfLength, center.y + halfLength, 0.0f},

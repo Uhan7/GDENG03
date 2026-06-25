@@ -37,7 +37,8 @@ int main()
     unsigned int shaderProgram = CreateShaderProgram(vertexShader, fragmentShader);
 
     // Make our epic shits
-    Circle circle = Circle({0.0f, 0.0f, 0.0f}, 0.25f, {1.0f, 1.0f, 1.0f});
+    Circle circle = Circle({-0.5f, 0.5f, 0.0f}, 0.25f, {1.0f, 1.0f, 1.0f});
+    Quad square = Quad::MakeSquare({0.5f, 0.5f, 0.0f}, 0.5f, {1.0f, 1.0f, 1.0f});
 
     // Setup Input
     glfwSetKeyCallback(window, key_callback);
@@ -57,6 +58,7 @@ int main()
 
         // Render our shits
         circle.Draw(shaderProgram);
+        square.Draw(shaderProgram);
 
         // Show next frame
         glfwSwapBuffers(window);
