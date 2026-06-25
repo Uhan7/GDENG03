@@ -23,6 +23,9 @@
         "${workspaceFolder}/Source/Managers/window_manager.cpp",
         "${workspaceFolder}/Source/Managers/input_manager.cpp",
         "${workspaceFolder}/Source/Managers/shaders_reader.cpp",
+        "${workspaceFolder}/Source/Camera_Scripts/camera.cpp",
+        "${workspaceFolder}/Source/Camera_Scripts/orthographic_camera.cpp",
+        "${workspaceFolder}/Source/Camera_Scripts/perspective_camera.cpp",
 
         "${workspaceFolder}/Dependencies/include/imgui/imgui.cpp",
         "${workspaceFolder}/Dependencies/include/imgui/imgui_draw.cpp",
