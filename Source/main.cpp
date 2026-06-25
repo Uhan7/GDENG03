@@ -51,7 +51,13 @@ int main()
     // Make our epic shits
     Circle circle = Circle({-0.5f, 0.5f, 1.0f}, 0.25f, {1.0f, 0.0f, 0.0f});
     Quad square = Quad::MakeSquare({0.5f, 0.5f, 0.0f}, 0.5f, {0.0f, 1.0f, 0.0f});
-    Cube cube = Cube({-0.5f, -0.5f, 0.0f}, 0.5f, {0.0f, 0.0f, 1.0f});
+    Quad plane = Quad(
+        {-1.0f, 0.0f, -1.0f},
+        { 1.0f, 0.0f, -1.0f},
+        {-1.0f, 0.0f,  1.0f},
+        { 1.0f, 0.0f,  1.0f},
+        {1.0f, 1.0f, 1.0f});
+    Cube cube = Cube({-0.5f, 0.0f, 0.0f}, 0.5f, {0.0f, 0.0f, 1.0f});
 
     // Setup Mouse
     glm::dvec2 currentMousePosition = {0.0, 0.0};
@@ -108,6 +114,7 @@ int main()
         // Render our shits
         circle.Draw(shaderProgram);
         square.Draw(shaderProgram);
+        plane.Draw(shaderProgram);
         cube.Draw(shaderProgram);
 
         // Method of Rendering

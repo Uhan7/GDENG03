@@ -1,10 +1,10 @@
 #include "quad.h"
 
 Quad::Quad(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec3 p4, glm::vec3 color){
-    vertices[0] = {{p1.x, p1.y, 0.0f}, color};
-    vertices[1] = {{p2.x, p2.y, 0.0f}, color};
-    vertices[2] = {{p3.x, p3.y, 0.0f}, color};
-    vertices[3] = {{p4.x, p4.y, 0.0f}, color};
+    vertices[0] = {{p1.x, p1.y, p1.z}, color};
+    vertices[1] = {{p2.x, p2.y, p2.z}, color};
+    vertices[2] = {{p3.x, p3.y, p3.z}, color};
+    vertices[3] = {{p4.x, p4.y, p4.z}, color};
 
     SetupMesh();
 }

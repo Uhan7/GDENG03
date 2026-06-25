@@ -2,7 +2,9 @@
 
 Cube::Cube(glm::vec3 origin, float sideLength, glm::vec3 color){
     transform.SetPosition(origin);
-    
+
+    sideLength /= 2;
+
     vertices[0] = {{-sideLength, -sideLength,  sideLength}, color};
     vertices[1] = {{sideLength, -sideLength,  sideLength}, color};
     vertices[2] = {{sideLength,  sideLength,  sideLength}, color};
