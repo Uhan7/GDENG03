@@ -19,6 +19,7 @@
         "${workspaceFolder}/Source/quad.cpp",
         "${workspaceFolder}/Source/circle.cpp",
         "${workspaceFolder}/Source/cube.cpp",
+        "${workspaceFolder}/Source/sphere.cpp",
         "${workspaceFolder}/Source/random.cpp",
         "${workspaceFolder}/Source/transform.cpp",
         "${workspaceFolder}/Source/Managers/window_manager.cpp",
