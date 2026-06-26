@@ -58,6 +58,11 @@ int main()
     Sphere sphere = Sphere({0.5f, -0.5f, 0.0f}, 0.5f, {1.0f, 1.0f, 0.0f});
     Cylinder cylinder = Cylinder({0.5f, 0.0f, -2.0f}, 0.25f, 0.5f, {0.0f, 1.0f, 1.0f});
 
+    // Fake Capsule...
+    Cylinder capsuleMiddle = Cylinder({-2.0f, 0.0f, -2.0f}, 0.25f, 0.5f, {1.0f, 0.0f, 1.0f});
+    Sphere capsuleTop = Sphere({-2.0f, 0.25f, -2.0f}, 0.25f, {1.0f, 0.0f, 1.0f});
+    Sphere capsuleBottom = Sphere({-2.0f, -0.25f, -2.0f}, 0.25f, {1.0f, 0.0f, 1.0f});
+
     // Setup Mouse
     glm::dvec2 currentMousePosition = {0.0, 0.0};
     glm::vec2 lastMousePosition = {SCR_WIDTH / 2.0f, SCR_HEIGHT / 2.0f};
@@ -117,6 +122,11 @@ int main()
         cube.Draw(shaderProgram);
         sphere.Draw(shaderProgram);
         cylinder.Draw(shaderProgram);
+
+        // Draw Fake Capsule heh
+        capsuleTop.Draw(shaderProgram);
+        capsuleMiddle.Draw(shaderProgram);
+        capsuleBottom.Draw(shaderProgram);
 
         // Method of Rendering
         if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
