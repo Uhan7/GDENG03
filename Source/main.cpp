@@ -116,15 +116,8 @@ int main()
         camera.Update(shaderProgram, SCR_WIDTH, SCR_HEIGHT);
 
         // Update our shits
-        plane.transform.UpdateModelMatrix();
-        circle.transform.UpdateModelMatrix();
-        square.transform.UpdateModelMatrix();
-        cube.transform.UpdateModelMatrix();
-        sphere.transform.UpdateModelMatrix();
-        cylinder.transform.UpdateModelMatrix();
-        capsuleTop.transform.UpdateModelMatrix(); // Fake Capsule Top
-        capsuleMiddle.transform.UpdateModelMatrix(); // Fake Capsule Middle
-        capsuleBottom.transform.UpdateModelMatrix(); // Fake Capsule Bottom
+        // sphere.transform.ChangeRotation({0.0f, 0.5f, 0.0f});
+        // cylinder.transform.ChangeScale({0.0f, 0.01f, 0.05f});
 
         // Render our shits
         plane.Draw(shaderProgram);
