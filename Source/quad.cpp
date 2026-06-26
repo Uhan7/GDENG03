@@ -39,8 +39,8 @@ void Quad::SetupMesh(){
 
 void Quad::Draw(unsigned int shaderProgram){
     glUseProgram(shaderProgram);
-    int offsetLoc = glGetUniformLocation(shaderProgram, "offset");
-    glUniform3f(offsetLoc, transform.position.x, transform.position.y, transform.position.z);
+    int modelLoc = glGetUniformLocation(shaderProgram, "model");
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &transform.model[0][0]);
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

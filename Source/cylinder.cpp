@@ -1,7 +1,7 @@
 #include "cylinder.h"
 
 Cylinder::Cylinder(glm::vec3 origin, float radius, float height, glm::vec3 color){
-    transform.SetPosition(origin);
+    transform.position = (origin);
 
     height /= 2;
     
@@ -77,8 +77,8 @@ void Cylinder::SetupMesh(){
 
 void Cylinder::Draw(unsigned int shaderProgram){
     glUseProgram(shaderProgram);
-    int offsetLoc = glGetUniformLocation(shaderProgram, "offset");
-    glUniform3f(offsetLoc, transform.position.x, transform.position.y, transform.position.z);
+    int modelLoc = glGetUniformLocation(shaderProgram, "model");
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &transform.model[0][0]);
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 }

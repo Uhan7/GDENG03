@@ -112,8 +112,19 @@ int main()
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Update our shits
+        // Update our Camera
         camera.Update(shaderProgram, SCR_WIDTH, SCR_HEIGHT);
+
+        // Update our shits
+        plane.transform.UpdateModelMatrix();
+        circle.transform.UpdateModelMatrix();
+        square.transform.UpdateModelMatrix();
+        cube.transform.UpdateModelMatrix();
+        sphere.transform.UpdateModelMatrix();
+        cylinder.transform.UpdateModelMatrix();
+        capsuleTop.transform.UpdateModelMatrix(); // Fake Capsule Top
+        capsuleMiddle.transform.UpdateModelMatrix(); // Fake Capsule Middle
+        capsuleBottom.transform.UpdateModelMatrix(); // Fake Capsule Bottom
 
         // Render our shits
         plane.Draw(shaderProgram);
@@ -122,11 +133,9 @@ int main()
         cube.Draw(shaderProgram);
         sphere.Draw(shaderProgram);
         cylinder.Draw(shaderProgram);
-
-        // Draw Fake Capsule heh
-        capsuleTop.Draw(shaderProgram);
-        capsuleMiddle.Draw(shaderProgram);
-        capsuleBottom.Draw(shaderProgram);
+        capsuleTop.Draw(shaderProgram); // Fake Capsule Top
+        capsuleMiddle.Draw(shaderProgram); // Fake Capsule Middle
+        capsuleBottom.Draw(shaderProgram); // Fake Capsule Bottom
 
         // Method of Rendering
         if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

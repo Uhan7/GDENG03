@@ -1,7 +1,7 @@
 #include "sphere.h"
 
 Sphere::Sphere(glm::vec3 origin, float radius, glm::vec3 color){
-    transform.SetPosition(origin);
+    transform.position = (origin);
 
     // Vertices Loop
     for (int y = 0; y <= segmentsY; y++){
@@ -71,8 +71,8 @@ void Sphere::SetupMesh(){
 
 void Sphere::Draw(unsigned int shaderProgram){
     glUseProgram(shaderProgram);
-    int offsetLoc = glGetUniformLocation(shaderProgram, "offset");
-    glUniform3f(offsetLoc, transform.position.x, transform.position.y, transform.position.z);
+    int modelLoc = glGetUniformLocation(shaderProgram, "model");
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &transform.model[0][0]);
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 }

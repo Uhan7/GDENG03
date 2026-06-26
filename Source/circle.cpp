@@ -1,7 +1,7 @@
 #include "circle.h"
 
 Circle::Circle(glm::vec3 origin, float radius, glm::vec3 color){
-    transform.SetPosition(origin);
+    transform.position = (origin);
     
     vertices.push_back({glm::vec3(0.0f, 0.0f, 0.0f), color}); // Center Vertex First
 
@@ -41,8 +41,8 @@ void Circle::SetupMesh(){
 
 void Circle::Draw(unsigned int shaderProgram){
     glUseProgram(shaderProgram);
-    int offsetLoc = glGetUniformLocation(shaderProgram, "offset");
-    glUniform3f(offsetLoc, transform.position.x, transform.position.y, transform.position.z);
+    int modelLoc = glGetUniformLocation(shaderProgram, "model");
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &transform.model[0][0]);
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLE_FAN, 0, vertices.size());
 }

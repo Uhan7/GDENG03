@@ -1,7 +1,7 @@
 #include "cube.h"
 
 Cube::Cube(glm::vec3 origin, float sideLength, glm::vec3 color){
-    transform.SetPosition(origin);
+    transform.position = (origin);
 
     sideLength /= 2;
 
@@ -47,8 +47,8 @@ void Cube::SetupMesh(){
 
 void Cube::Draw(unsigned int shaderProgram){
     glUseProgram(shaderProgram);
-    int offsetLoc = glGetUniformLocation(shaderProgram, "offset");
-    glUniform3f(offsetLoc, transform.position.x, transform.position.y, transform.position.z);
+    int modelLoc = glGetUniformLocation(shaderProgram, "model");
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &transform.model[0][0]);
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 }
