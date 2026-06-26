@@ -21,11 +21,10 @@ class Sphere{
         std::vector<ColorVertex> vertices;
         std::vector<unsigned int> indices;
         unsigned int VAO, VBO, EBO;
-        int segmentsX = 64;
-        int segmentsY = 64;
+        int segmentsX = 32;
+        int segmentsY = 32;
 
     public:
         void Draw(unsigned int shaderProgram);
         void SetupMesh();
-        void SetPosition(glm::vec3 newPosition);
 };

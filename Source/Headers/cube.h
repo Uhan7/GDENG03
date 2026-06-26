@@ -30,5 +30,4 @@ class Cube{
     public:
         void Draw(unsigned int shaderProgram);
         void SetupMesh();
-        void SetPosition(glm::vec3 newPosition);
 };

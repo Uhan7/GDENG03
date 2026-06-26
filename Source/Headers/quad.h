@@ -23,7 +23,6 @@ class Quad{
     public:
         void Draw(unsigned int shaderProgram);
         void SetupMesh();
-        void SetPosition(glm::vec3 newPosition);
 
         static Quad MakeSquare(glm::vec3 center, float sideLength, glm::vec3 color);
         static std::unique_ptr<Quad> MakeSquarePtr(glm::vec3 center, float sideLength, glm::vec3 color);

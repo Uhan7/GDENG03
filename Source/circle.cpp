@@ -42,11 +42,8 @@ void Circle::SetupMesh(){
 void Circle::Draw(unsigned int shaderProgram){
     glUseProgram(shaderProgram);
     int modelLoc = glGetUniformLocation(shaderProgram, "model");
+    transform.UpdateModelMatrix();
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &transform.model[0][0]);
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLE_FAN, 0, vertices.size());
-}
-
-void Circle::SetPosition(glm::vec3 newPosition){
-    transform.position = newPosition;
 }

@@ -20,11 +20,10 @@ class Cylinder{
     private:
         std::vector<ColorVertex> vertices;
         std::vector<unsigned int> indices;
-        int segments = 64;
+        int segments = 32;
         unsigned int VAO, VBO, EBO;
 
     public:
         void Draw(unsigned int shaderProgram);
         void SetupMesh();
-        void SetPosition(glm::vec3 newPosition);
 };

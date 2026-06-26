@@ -40,13 +40,10 @@ void Quad::SetupMesh(){
 void Quad::Draw(unsigned int shaderProgram){
     glUseProgram(shaderProgram);
     int modelLoc = glGetUniformLocation(shaderProgram, "model");
+    transform.UpdateModelMatrix();
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &transform.model[0][0]);
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-}
-
-void Quad::SetPosition(glm::vec3 newPosition){
-    transform.position = newPosition;
 }
 
 Quad Quad::MakeSquare(glm::vec3 center, float sideLength, glm::vec3 color){

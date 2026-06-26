@@ -19,11 +19,10 @@ class Circle{
 
     private:
         std::vector<ColorVertex> vertices;
-        int segments = 64; // This is for 2d fo now
+        int segments = 32; // This is for 2d fo now
         unsigned int VAO, VBO; // No EBO for trianglefan
 
     public:
         void Draw(unsigned int shaderProgram);
         void SetupMesh();
-        void SetPosition(glm::vec3 newPosition);
 };

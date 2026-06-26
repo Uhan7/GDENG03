@@ -48,11 +48,8 @@ void Cube::SetupMesh(){
 void Cube::Draw(unsigned int shaderProgram){
     glUseProgram(shaderProgram);
     int modelLoc = glGetUniformLocation(shaderProgram, "model");
+    transform.UpdateModelMatrix();
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &transform.model[0][0]);
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
-}
-
-void Cube::SetPosition(glm::vec3 newPosition){
-    transform.position = newPosition;
 }

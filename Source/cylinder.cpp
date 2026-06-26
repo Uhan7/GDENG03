@@ -78,11 +78,8 @@ void Cylinder::SetupMesh(){
 void Cylinder::Draw(unsigned int shaderProgram){
     glUseProgram(shaderProgram);
     int modelLoc = glGetUniformLocation(shaderProgram, "model");
+    transform.UpdateModelMatrix();
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &transform.model[0][0]);
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-}
-
-void Cylinder::SetPosition(glm::vec3 newPosition){
-    transform.position = newPosition;
 }
