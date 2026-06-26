@@ -16,6 +16,11 @@ void Transform::MoveWithVelocity(){
     position += velocity;
 }
 
+void Transform::RotateWithAngularVelocity()
+{
+    rotation += angularVelocity;
+}
+
 void Transform::UpdateModelMatrix()
 {
     model = glm::mat4(1.0f);

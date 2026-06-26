@@ -51,17 +51,11 @@ int main()
     glEnable(GL_DEPTH_TEST);
 
     // Make our epic shits
-    Quad plane = Quad({-1.0f, 0.0f, -1.0f}, { 1.0f, 0.0f, -1.0f}, {-1.0f, 0.0f,  1.0f}, { 1.0f, 0.0f,  1.0f}, {1.0f, 1.0f, 1.0f});
-    Circle circle = Circle({-0.5f, 0.5f, 1.0f}, 0.25f, {1.0f, 0.0f, 0.0f});
-    Quad square = Quad::MakeSquare({0.5f, 0.5f, 0.0f}, 0.5f, {0.0f, 1.0f, 0.0f});
-    Cube cube = Cube({-0.5f, 0.0f, 0.0f}, 0.5f, {0.0f, 0.0f, 1.0f});
-    Sphere sphere = Sphere({0.5f, -0.5f, 0.0f}, 0.5f, {1.0f, 1.0f, 0.0f});
-    Cylinder cylinder = Cylinder({0.5f, 0.0f, -2.0f}, 0.25f, 0.5f, {0.0f, 1.0f, 1.0f});
-
-    // Fake Capsule...
-    Cylinder capsuleMiddle = Cylinder({-2.0f, 0.0f, -2.0f}, 0.25f, 0.5f, {1.0f, 0.0f, 1.0f});
-    Sphere capsuleTop = Sphere({-2.0f, 0.25f, -2.0f}, 0.25f, {1.0f, 0.0f, 1.0f});
-    Sphere capsuleBottom = Sphere({-2.0f, -0.25f, -2.0f}, 0.25f, {1.0f, 0.0f, 1.0f});
+    std::vector<std::unique_ptr<Cube>> cubes;
+    for (int i = 0; i < 50; i++){
+        cubes.push_back(std::make_unique<Cube>(RandomVec3(-3.0f, 3.0f), 0.5f, glm::vec3{1.0f, 1.0f, 1.0f}));
+        cubes.back()->transform.angularVelocity = RandomVec3(-1.0f, 1.0f);
+    }
 
     // Setup Mouse
     glm::dvec2 currentMousePosition = {0.0, 0.0};
@@ -116,19 +110,10 @@ int main()
         camera.Update(shaderProgram, SCR_WIDTH, SCR_HEIGHT);
 
         // Update our shits
-        // sphere.transform.ChangeRotation({0.0f, 0.5f, 0.0f});
-        // cylinder.transform.ChangeScale({0.0f, 0.01f, 0.05f});
+        for (std::unique_ptr<Cube>& cube : cubes) cube->transform.RotateWithAngularVelocity();
 
         // Render our shits
-        plane.Draw(shaderProgram);
-        circle.Draw(shaderProgram);
-        square.Draw(shaderProgram);
-        cube.Draw(shaderProgram);
-        sphere.Draw(shaderProgram);
-        cylinder.Draw(shaderProgram);
-        capsuleTop.Draw(shaderProgram); // Fake Capsule Top
-        capsuleMiddle.Draw(shaderProgram); // Fake Capsule Middle
-        capsuleBottom.Draw(shaderProgram); // Fake Capsule Bottom
+        for (std::unique_ptr<Cube>& cube : cubes) cube->Draw(shaderProgram);
 
         // Method of Rendering
         if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

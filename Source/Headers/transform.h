@@ -16,6 +16,7 @@ class Transform{
 
         // Default Deltas -> is dat what I shud call em..?
         glm::vec3 velocity =  glm::vec3(0.0f);
+        glm::vec3 angularVelocity =  glm::vec3(0.0f);
 
         // Move Functions
         void ChangePosition(glm::vec3 offsetPosition);
@@ -24,6 +25,7 @@ class Transform{
 
         // Delta Magic
         void MoveWithVelocity();
+        void RotateWithAngularVelocity();
 
         // Update Function
         void UpdateModelMatrix();
