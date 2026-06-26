@@ -24,11 +24,21 @@ Cylinder::Cylinder(glm::vec3 origin, float radius, float height, glm::vec3 color
         int topNext = topCurrent + 2;
         int bottomNext = bottomCurrent + 2;
 
-        // This shi is like the [0, 1, 2, 1, 2, 3] whatever from the indices
+        // Top Cap
+        indices.push_back(0);
+        indices.push_back(topCurrent);
+        indices.push_back(topNext);
+
+        // Sides
         indices.push_back(topCurrent);
         indices.push_back(bottomCurrent);
         indices.push_back(topNext);
         indices.push_back(topNext);
+        indices.push_back(bottomCurrent);
+        indices.push_back(bottomNext);
+
+        // Bottom Cap
+        indices.push_back(1);
         indices.push_back(bottomCurrent);
         indices.push_back(bottomNext);
     }
