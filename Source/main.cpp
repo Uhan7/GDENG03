@@ -19,6 +19,7 @@
 #include "circle.h"
 #include "cube.h"
 #include "sphere.h"
+#include "cylinder.h"
 #include "window_manager.h"
 #include "input_manager.h"
 #include "shaders_reader.h"
@@ -55,6 +56,7 @@ int main()
     Quad square = Quad::MakeSquare({0.5f, 0.5f, 0.0f}, 0.5f, {0.0f, 1.0f, 0.0f});
     Cube cube = Cube({-0.5f, 0.0f, 0.0f}, 0.5f, {0.0f, 0.0f, 1.0f});
     Sphere sphere = Sphere({0.5f, -0.5f, 0.0f}, 0.5f, {1.0f, 1.0f, 0.0f});
+    Cylinder cylinder = Cylinder({0.5f, 0.0f, -2.0f}, 0.25f, 0.5f, {0.0f, 1.0f, 1.0f});
 
     // Setup Mouse
     glm::dvec2 currentMousePosition = {0.0, 0.0};
@@ -114,6 +116,7 @@ int main()
         square.Draw(shaderProgram);
         cube.Draw(shaderProgram);
         sphere.Draw(shaderProgram);
+        cylinder.Draw(shaderProgram);
 
         // Method of Rendering
         if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
