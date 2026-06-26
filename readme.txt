@@ -81,5 +81,7 @@ Anyways, here's general instructions on how I ran it
   ]
 }
 
+BTW, the main file that's running things is "main.cpp", inside the "Source" folder
+
 4. if the build button doesn't work, build with [Command+Shift+B] on Mac (Ctrl+Shift+B I guess on windows...)
 5. If the button doesn't work to run it either, type in the terminal ./Builds/app
