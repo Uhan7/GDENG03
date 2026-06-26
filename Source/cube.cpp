@@ -6,23 +6,23 @@ Cube::Cube(glm::vec3 origin, float sideLength, glm::vec3 color){
 
     sideLength /= 2;
 
-    // vertices[0] = {{-sideLength, -sideLength,  sideLength}, color};
-    // vertices[1] = {{sideLength, -sideLength,  sideLength}, color};
-    // vertices[2] = {{sideLength,  sideLength,  sideLength}, color};
-    // vertices[3] = {{-sideLength,  sideLength,  sideLength}, color};
-    // vertices[4] = {{-sideLength, -sideLength, -sideLength}, color};
-    // vertices[5] = {{sideLength, -sideLength, -sideLength}, color};
-    // vertices[6] = {{sideLength,  sideLength, -sideLength}, color};
-    // vertices[7] = {{-sideLength,  sideLength, -sideLength}, color};
+    vertices[0] = {{-sideLength, -sideLength,  sideLength}, color};
+    vertices[1] = {{sideLength, -sideLength,  sideLength}, color};
+    vertices[2] = {{sideLength,  sideLength,  sideLength}, color};
+    vertices[3] = {{-sideLength,  sideLength,  sideLength}, color};
+    vertices[4] = {{-sideLength, -sideLength, -sideLength}, color};
+    vertices[5] = {{sideLength, -sideLength, -sideLength}, color};
+    vertices[6] = {{sideLength,  sideLength, -sideLength}, color};
+    vertices[7] = {{-sideLength,  sideLength, -sideLength}, color};
 
-    vertices[0] = {{-sideLength, -sideLength,  sideLength}, whiteColor};
-    vertices[1] = {{sideLength, -sideLength,  sideLength}, redColor};
-    vertices[2] = {{sideLength,  sideLength,  sideLength}, orangeColor};
-    vertices[3] = {{-sideLength,  sideLength,  sideLength}, yellowColor};
-    vertices[4] = {{-sideLength, -sideLength, -sideLength}, greenColor};
-    vertices[5] = {{sideLength, -sideLength, -sideLength}, blueColor};
-    vertices[6] = {{sideLength,  sideLength, -sideLength}, magentaColor};
-    vertices[7] = {{-sideLength,  sideLength, -sideLength}, blackColor};
+    // vertices[0] = {{-sideLength, -sideLength,  sideLength}, whiteColor};
+    // vertices[1] = {{sideLength, -sideLength,  sideLength}, redColor};
+    // vertices[2] = {{sideLength,  sideLength,  sideLength}, orangeColor};
+    // vertices[3] = {{-sideLength,  sideLength,  sideLength}, yellowColor};
+    // vertices[4] = {{-sideLength, -sideLength, -sideLength}, greenColor};
+    // vertices[5] = {{sideLength, -sideLength, -sideLength}, blueColor};
+    // vertices[6] = {{sideLength,  sideLength, -sideLength}, magentaColor};
+    // vertices[7] = {{-sideLength,  sideLength, -sideLength}, blackColor};
 
     SetupMesh();
 }
