@@ -16,6 +16,7 @@
 
         "${workspaceFolder}/Dependencies/include/glad/glad.c",
         "${workspaceFolder}/Source/main.cpp",
+        // "${workspaceFolder}/~Tests/imgui_test.cpp",
         "${workspaceFolder}/Source/quad.cpp",
         "${workspaceFolder}/Source/circle.cpp",
         "${workspaceFolder}/Source/cube.cpp",

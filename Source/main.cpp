@@ -10,6 +10,9 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
 
 // Source Files
 #include "random.h"
@@ -30,6 +33,7 @@
 // Prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+void SetUpImGui(GLFWwindow *window);
 
 // Main Function!
 int main()
@@ -60,53 +64,13 @@ int main()
     glEnable(GL_DEPTH_TEST);
 
     // Make our epic shits
+    Quad plane = Quad({-5.0f, 0.0f, -5.0f}, {-5.0f, 0.0f, 5.0f}, {5.0f, 0.0f, -5.0f}, {5.0f, 0.0f, 5.0f}, RandomVec3(0.6f, 1.0f));
+    Cube cube = Cube({0.0f, 0.0f, 0.0f}, 1.0f, RandomVec3(0.6f, 1.0f));
 
-    /*
-    Hmm things I notice abt cards
-    
-    Lets say default length is "2"
-    and default height is "3.5"
-
-    h.m....
-    */
-
-    float length1 = 0.0;
-    float length2 = -0.2;
-
-    float originY = 0.0f;
-    float heightChange = 0.35f;
-
-    float originX = 0.0f;
-    float tiltX = 0.1f;
-
-    // float nextCardHeight = sqrt(heightChange*heightChange - tiltX*tiltX);
-
-    Quad card1 = Quad({originX, originY, length1}, {originX, originY, length2}, {originX - tiltX, originY - heightChange, length1}, {originX - tiltX, originY - heightChange, length2}, RandomVec3(0.5f, 0.9f));
-    Quad card2 = Quad({originX, originY, length1}, {originX, originY, length2}, {originX + tiltX, originY - heightChange, length1}, {originX + tiltX, originY - heightChange, length2}, RandomVec3(0.5f, 0.9f));
-
-    originY -= heightChange;
-    Quad card3 = Quad({(originX - heightChange)/2, originY, length1}, {(originX - heightChange)/2, originY, length2}, {(originX + heightChange)/2, originY, length1}, {(originX + heightChange)/2, originY, length2}, RandomVec3(0.5f, 0.9f));
-
-    originX -= heightChange/2;
-    Quad card4 = Quad({originX, originY, length1}, {originX, originY, length2}, {originX - tiltX, originY - heightChange, length1}, {originX - tiltX, originY - heightChange, length2}, RandomVec3(0.5f, 0.9f));
-    Quad card5 = Quad({originX, originY, length1}, {originX, originY, length2}, {originX + tiltX, originY - heightChange, length1}, {originX + tiltX, originY - heightChange, length2}, RandomVec3(0.5f, 0.9f));
-    originX += heightChange;
-    Quad card6 = Quad({originX, originY, length1}, {originX, originY, length2}, {originX - tiltX, originY - heightChange, length1}, {originX - tiltX, originY - heightChange, length2}, RandomVec3(0.5f, 0.9f));
-    Quad card7 = Quad({originX, originY, length1}, {originX, originY, length2}, {originX + tiltX, originY - heightChange, length1}, {originX + tiltX, originY - heightChange, length2}, RandomVec3(0.5f, 0.9f));
-
-    originY -= heightChange;
-    Quad card8 = Quad({(originX - heightChange)*2, originY, length1}, {(originX - heightChange)*2, originY, length2}, {0, originY, length1}, {0, originY, length2}, RandomVec3(1.0f, 1.0f));
-    Quad card9 = Quad({0, originY, length1}, {0, originY, length2}, {(originX + heightChange/2), originY, length1}, {(originX + heightChange/2), originY, length2}, RandomVec3(0.5f, 0.9f));
-
-    originX -= heightChange/2 + heightChange;
-    Quad card10 = Quad({originX, originY, length1}, {originX, originY, length2}, {originX - tiltX, originY - heightChange, length1}, {originX - tiltX, originY - heightChange, length2}, RandomVec3(0.5f, 0.9f));
-    Quad card11 = Quad({originX, originY, length1}, {originX, originY, length2}, {originX + tiltX, originY - heightChange, length1}, {originX + tiltX, originY - heightChange, length2}, RandomVec3(0.5f, 0.9f));
-    originX += heightChange;
-    Quad card12 = Quad({originX, originY, length1}, {originX, originY, length2}, {originX - tiltX, originY - heightChange, length1}, {originX - tiltX, originY - heightChange, length2}, RandomVec3(0.5f, 0.9f));
-    Quad card13 = Quad({originX, originY, length1}, {originX, originY, length2}, {originX + tiltX, originY - heightChange, length1}, {originX + tiltX, originY - heightChange, length2}, RandomVec3(0.5f, 0.9f));
-    originX += heightChange;
-    Quad card14 = Quad({originX, originY, length1}, {originX, originY, length2}, {originX - tiltX, originY - heightChange, length1}, {originX - tiltX, originY - heightChange, length2}, RandomVec3(0.5f, 0.9f));
-    Quad card15 = Quad({originX, originY, length1}, {originX, originY, length2}, {originX + tiltX, originY - heightChange, length1}, {originX + tiltX, originY - heightChange, length2}, RandomVec3(0.5f, 0.9f));
+    // Setup IMGUI
+    SetUpImGui(window);
+    ImGuiIO& io = ImGui::GetIO();
+    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     // UPDATE EVERY FRAME =====================================================
     while (!glfwWindowShouldClose(window))
@@ -122,7 +86,11 @@ int main()
         xOffset *= mouseSensitivity;
         yOffset *= mouseSensitivity;
 
+        // Hide Mouse
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // We hide + lock the mouse
+
+        // if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT)) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // We hide + lock the mouse
+        // else glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
         // Check for Key Inputs
         glfwPollEvents();
@@ -137,15 +105,11 @@ int main()
         if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) camera.cameraMoveSpeed = cameraFastSpeed;
         else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE) camera.cameraMoveSpeed = cameraNormalSpeed;
 
-        // if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) camera.Rotate('U');
-        // if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) camera.Rotate('L');
-        // if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) camera.Rotate('D');
-        // if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) camera.Rotate('R');
-
         camera.RotateByMouse(xOffset, yOffset);
 
         // Setup background
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        // glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Method of Rendering
@@ -159,25 +123,49 @@ int main()
         
 
         // Render our shits
-        card1.Draw(shaderProgram);
-        card2.Draw(shaderProgram);
-        card3.Draw(shaderProgram);
-        card4.Draw(shaderProgram);
-        card5.Draw(shaderProgram);
-        card6.Draw(shaderProgram);
-        card7.Draw(shaderProgram);
-        card8.Draw(shaderProgram);
-        card9.Draw(shaderProgram);
-        card10.Draw(shaderProgram);
-        card11.Draw(shaderProgram);
-        card12.Draw(shaderProgram);
-        card13.Draw(shaderProgram);
-        card14.Draw(shaderProgram);
-        card15.Draw(shaderProgram);
+        plane.Draw(shaderProgram);
+        cube.Draw(shaderProgram);
+
+        // Setup IMGUI
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        /*
+        {
+            static int counter = 0;
+
+            ImGui::Begin("Epic Credits");
+
+            ImGui::Text("GDENG03 Engine by Johann Naranjo");
+            ImGui::Text("Done on OpenGL on Mac OS");
+            ImGui::ColorEdit3("clear color", (float*)&clear_color);
+
+            if (ImGui::Button("Say Wallahi Bro")){
+                std::cout << "Wallahi" << std::endl;
+                counter++;
+            }
+
+            ImGui::SameLine();
+            ImGui::Text("counter = %d", counter);
+
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+            ImGui::End();
+        }
+        */
+
+        // Render IMGUI Stuff
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         // Show next frame
         glfwSwapBuffers(window);
     }
+
+    // Exit IMGUI
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
     // Exit the program
     glDeleteProgram(shaderProgram);
@@ -194,4 +182,19 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
         if (action == GLFW_PRESS) std::cout << ("RMB Yes") << std::endl;
         else if (action == GLFW_RELEASE) std::cout << ("RMB No") << std::endl;
     }
+}
+
+void SetUpImGui(GLFWwindow *window){
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+    ImGui::StyleColorsDark();
+    //ImGui::StyleColorsLight();
+
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 150");
 }
