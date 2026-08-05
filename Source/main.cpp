@@ -23,6 +23,7 @@
 #include "cube.h"
 #include "sphere.h"
 #include "cylinder.h"
+#include "mesh.h"
 #include "window_manager.h"
 #include "input_manager.h"
 #include "shaders_reader.h"
@@ -64,8 +65,8 @@ int main()
     glEnable(GL_DEPTH_TEST);
 
     // Make our epic shits
-    Quad plane = Quad({-5.0f, 0.0f, -5.0f}, {-5.0f, 0.0f, 5.0f}, {5.0f, 0.0f, -5.0f}, {5.0f, 0.0f, 5.0f}, RandomVec3(0.6f, 1.0f));
-    Cube cube = Cube({0.0f, 0.0f, 0.0f}, 1.0f, RandomVec3(0.6f, 1.0f));
+    Mesh teapot("teapot.obj", {0.6f, 0.2f, 0.3f});
+    teapot.transform.scale = {1.0f, 1.0f, 1.0f};
 
     // Setup IMGUI
     SetUpImGui(window);
@@ -123,8 +124,7 @@ int main()
         
 
         // Render our shits
-        plane.Draw(shaderProgram);
-        cube.Draw(shaderProgram);
+        teapot.Draw(shaderProgram);
 
         // Setup IMGUI
         ImGui_ImplOpenGL3_NewFrame();
