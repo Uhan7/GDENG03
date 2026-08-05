@@ -15,7 +15,7 @@ const std::filesystem::path MODEL_PATH = "../../../Models";
 
 class Mesh {
 public:
-    Mesh(const std::string& objPath, glm::vec3 color);
+    Mesh(const std::string& objPath);
     ~Mesh();
 
     Transform transform;
@@ -23,10 +23,10 @@ public:
     void Draw(unsigned int shaderProgram);
 
 private:
-    std::vector<ColorVertex> vertices;
+    std::vector<UvVertex> vertices;
     unsigned int VAO = 0;
     unsigned int VBO = 0;
 
-    void LoadObj(const std::string& objPath, glm::vec3 color);
+    void LoadObj(const std::string& objPath);
     void SetupMesh();
 };

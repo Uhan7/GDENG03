@@ -23,6 +23,7 @@
         "${workspaceFolder}/Source/sphere.cpp",
         "${workspaceFolder}/Source/cylinder.cpp",
         "${workspaceFolder}/Source/mesh.cpp",
+        "${workspaceFolder}/Source/texture.cpp",
         "${workspaceFolder}/Source/random.cpp",
         "${workspaceFolder}/Source/transform.cpp",
         "${workspaceFolder}/Source/Managers/window_manager.cpp",

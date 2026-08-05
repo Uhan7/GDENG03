@@ -3,8 +3,8 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "tiny_obj_loader.h"
 
-Mesh::Mesh(const std::string& objPath, glm::vec3 color){
-    LoadObj(objPath, color);
+Mesh::Mesh(const std::string& objPath){
+    LoadObj(objPath);
 
     transform.position = glm::vec3(0.f, 0.f, 0.f);
 
@@ -16,7 +16,7 @@ Mesh::~Mesh(){
     glDeleteBuffers(1, &VBO);
 }
 
-void Mesh::LoadObj(const std::string& objName, glm::vec3 color){
+void Mesh::LoadObj(const std::string& objName){
     namespace fs = std::filesystem;
 
     tinyobj::attrib_t attrib;
@@ -25,13 +25,9 @@ void Mesh::LoadObj(const std::string& objName, glm::vec3 color){
     std::string warn;
     std::string err;
 
-    fs::path modelPath = fs::absolute(fs::path("../../../Models") / objName);
+    fs::path modelPath = fs::absolute(fs::path("../../../3D/Models") / objName);
     std::string modelPathString = modelPath.string();
     std::string baseDir = modelPath.parent_path().string();
-
-    std::cout << "cwd: " << fs::current_path() << std::endl;
-    std::cout << "Loading OBJ path in: " << modelPathString << std::endl;
-    std::cout << "exists? " << fs::exists(modelPath) << std::endl;
 
     bool ok = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, modelPathString.c_str(), baseDir.c_str());
 
@@ -42,15 +38,22 @@ void Mesh::LoadObj(const std::string& objName, glm::vec3 color){
     vertices.clear();
 
     for (const auto& shape : shapes){
-        for (const auto& index : shape.mesh.indices){
+        for (const auto& index : shape.mesh.indices) {
             int vi = index.vertex_index;
+            int ti = index.texcoord_index;
 
             glm::vec3 pos;
             pos.x = attrib.vertices[3 * vi + 0];
             pos.y = attrib.vertices[3 * vi + 1];
             pos.z = attrib.vertices[3 * vi + 2];
 
-            vertices.push_back({pos, color});
+            glm::vec2 uv = {0.0f, 0.0f};
+            if (ti >= 0){
+                uv.x = attrib.texcoords[2 * ti + 0];
+                uv.y = attrib.texcoords[2 * ti + 1];
+            }
+
+            vertices.push_back({pos, uv});
         }
     }
 }
@@ -64,15 +67,15 @@ void Mesh::SetupMesh(){
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(
         GL_ARRAY_BUFFER,
-        vertices.size() * sizeof(ColorVertex),
+        vertices.size() * sizeof(UvVertex),
         vertices.data(),
         GL_STATIC_DRAW
     );
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ColorVertex), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(UvVertex), (void*)0);
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ColorVertex), (void*)sizeof(glm::vec3));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(UvVertex), (void*)offsetof(UvVertex, uv));
     glEnableVertexAttribArray(1);
 
     glBindVertexArray(0);

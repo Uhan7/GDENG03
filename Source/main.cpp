@@ -24,6 +24,7 @@
 #include "sphere.h"
 #include "cylinder.h"
 #include "mesh.h"
+#include "texture.h"
 #include "window_manager.h"
 #include "input_manager.h"
 #include "shaders_reader.h"
@@ -64,9 +65,20 @@ int main()
     camera.cameraMoveSpeed = cameraNormalSpeed;
     glEnable(GL_DEPTH_TEST);
 
+    // Make textures if needed
+    unsigned int brickTexture = LoadTexture("../../../3D/Textures/brick.png");
+
     // Make our epic shits
-    Mesh teapot("teapot.obj", {0.6f, 0.2f, 0.3f});
-    teapot.transform.scale = {1.0f, 1.0f, 1.0f};
+    Mesh teapot("teapot.obj");
+    Mesh bunny("bunny.obj");
+    Mesh armadillo("armadillo.obj");
+    Mesh statue("statue.obj");
+    
+    // Setup/Position of shits... if needed
+    teapot.transform.position = glm::vec3(-3, 0, 3);
+    bunny.transform.position = glm::vec3(3, 0, 3);
+    armadillo.transform.position = glm::vec3(-3, 0, -3);
+    statue.transform.position = glm::vec3(3, 0, -3);
 
     // Setup IMGUI
     SetUpImGui(window);
@@ -124,7 +136,19 @@ int main()
         
 
         // Render our shits
+        glUseProgram(shaderProgram);
+        glUniform1i(glGetUniformLocation(shaderProgram, "useTexture"), true);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, brickTexture);
+        glUniform1i(glGetUniformLocation(shaderProgram, "diffuseTexture"), 0);
         teapot.Draw(shaderProgram);
+
+        glUseProgram(shaderProgram);
+        glUniform1i(glGetUniformLocation(shaderProgram, "useTexture"), false);
+        glUniform3f(glGetUniformLocation(shaderProgram, "fallbackColor"), 1.0f, 1.0f, 1.0f);
+        bunny.Draw(shaderProgram);
+        armadillo.Draw(shaderProgram);
+        statue.Draw(shaderProgram);
 
         // Setup IMGUI
         ImGui_ImplOpenGL3_NewFrame();
