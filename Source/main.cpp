@@ -26,6 +26,7 @@
 #include "capsule.h"
 #include "mesh.h"
 #include "texture.h"
+#include "level_data.h"
 #include "window_manager.h"
 #include "input_manager.h"
 #include "shaders_reader.h"
@@ -44,6 +45,17 @@ int main()
     // Setup a Window
     GLFWwindow* window = SetupWindow(SCR_WIDTH, SCR_HEIGHT, "NARANJO GDENG03", nullptr, nullptr);
     if (window == nullptr) return -1;
+
+    // Setup the.. level??
+    LevelData level;
+
+    // Load up into level
+    LevelObject obj;
+    obj.type = PrimitiveType::Capsule;
+    obj.position = glm::vec3(0.0f, 1.0f, 0.0f);
+    obj.scale = glm::vec3(1.0f, 2.0f, 1.0f);
+    obj.hasRigidBody = true;
+    level.objects.push_back(obj);
 
     // Setup our shaders
     unsigned int vertexShader = CompileShader(GL_VERTEX_SHADER, "Shaders/default.vert");
