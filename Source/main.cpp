@@ -23,6 +23,7 @@
 #include "cube.h"
 #include "sphere.h"
 #include "cylinder.h"
+#include "capsule.h"
 #include "mesh.h"
 #include "texture.h"
 #include "window_manager.h"
@@ -70,6 +71,7 @@ int main()
 
     // Make our Objects
     Cube cube = Cube(glm::vec3(0, 0, 0), 1, glm::vec3(0.33f, 0.67f, 1));
+    Capsule capsule = Capsule(glm::vec3(2, 2, 0), 1, 3, glm::vec3(0.33f, 0.67f, 1));
 
     
     // Setup IMGUI
@@ -129,6 +131,7 @@ int main()
 
         // Render our shits
         cube.Draw(shaderProgram);
+        capsule.Draw(shaderProgram);
 
         // Setup IMGUI
         ImGui_ImplOpenGL3_NewFrame();

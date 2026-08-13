@@ -22,6 +22,7 @@
         "${workspaceFolder}/Source/cube.cpp",
         "${workspaceFolder}/Source/sphere.cpp",
         "${workspaceFolder}/Source/cylinder.cpp",
+        "${workspaceFolder}/Source/capsule.cpp",
         "${workspaceFolder}/Source/mesh.cpp",
         "${workspaceFolder}/Source/texture.cpp",
         "${workspaceFolder}/Source/random.cpp",
