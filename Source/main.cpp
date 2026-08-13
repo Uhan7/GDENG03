@@ -67,6 +67,22 @@ int main()
         std::cout << "Failed to save sample.level\n";
     }
 
+    // Load the level
+    LevelData loadedLevel;
+
+    if (LoadLevelFromFile(loadedLevel, "sample.level")){
+        std::cout << "Loaded " << loadedLevel.objects.size() << " object(s)\n";
+
+        if (!loadedLevel.objects.empty()){
+            const LevelObject& loadedObject = loadedLevel.objects[0];
+            std::cout << "First object type: " << PrimitiveTypeToString(loadedObject.type) << "\n";
+            std::cout << "Position: " << loadedObject.position.x << ", " << loadedObject.position.y << ", " << loadedObject.position.z << "\n";
+        }
+    }
+    else{
+        std::cout << "Failed to load sample.level\n";
+    }
+
     // Setup our shaders
     unsigned int vertexShader = CompileShader(GL_VERTEX_SHADER, "Shaders/default.vert");
     unsigned int fragmentShader = CompileShader(GL_FRAGMENT_SHADER, "Shaders/default.frag");
