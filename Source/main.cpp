@@ -26,13 +26,14 @@
 #include "capsule.h"
 #include "mesh.h"
 #include "texture.h"
-#include "level_data.h"
-#include "window_manager.h"
-#include "input_manager.h"
-#include "shaders_reader.h"
 #include "Camera_Scripts/camera.h"
 #include "Camera_Scripts/perspective_camera.h"
 #include "Camera_Scripts/orthographic_camera.h"
+#include "window_manager.h"
+#include "input_manager.h"
+#include "shaders_reader.h"
+#include "level_data.h"
+#include "level_bios.h"
 
 // Prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -56,6 +57,15 @@ int main()
     obj.scale = glm::vec3(1.0f, 2.0f, 1.0f);
     obj.hasRigidBody = true;
     level.objects.push_back(obj);
+
+    // TEST FOR LEVEL
+    bool didSave = SaveLevelToFile(level, "sample.level");
+    if (didSave){
+        std::cout << "Saved sample.level successfully\n";
+    }
+    else{
+        std::cout << "Failed to save sample.level\n";
+    }
 
     // Setup our shaders
     unsigned int vertexShader = CompileShader(GL_VERTEX_SHADER, "Shaders/default.vert");
