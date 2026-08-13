@@ -34,6 +34,7 @@
 #include "shaders_reader.h"
 #include "level_data.h"
 #include "level_bios.h"
+#include "level_renderer.h"
 
 // Prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -47,40 +48,35 @@ int main()
     GLFWwindow* window = SetupWindow(SCR_WIDTH, SCR_HEIGHT, "NARANJO GDENG03", nullptr, nullptr);
     if (window == nullptr) return -1;
 
-    // Setup the.. level??
-    LevelData level;
-
-    // Load up into level
-    LevelObject obj;
-    obj.type = PrimitiveType::Capsule;
-    obj.position = glm::vec3(0.0f, 1.0f, 0.0f);
-    obj.scale = glm::vec3(1.0f, 2.0f, 1.0f);
-    obj.hasRigidBody = true;
-    level.objects.push_back(obj);
-
     // TEST FOR LEVEL
-    bool didSave = SaveLevelToFile(level, "sample.level");
-    if (didSave){
-        std::cout << "Saved sample.level successfully\n";
-    }
-    else{
-        std::cout << "Failed to save sample.level\n";
-    }
+    // bool didSave = SaveLevelToFile(level, "sample.level");
+    // if (didSave) std::cout << "Saved sample.level successfully\n";
+    // else std::cout << "Failed to save sample.level\n";
 
     // Load the level
     LevelData loadedLevel;
 
-    if (LoadLevelFromFile(loadedLevel, "sample.level")){
+    // IF HASm, then load it
+    if (LoadLevelFromFile(loadedLevel, "sample.level")){ 
         std::cout << "Loaded " << loadedLevel.objects.size() << " object(s)\n";
-
-        if (!loadedLevel.objects.empty()){
-            const LevelObject& loadedObject = loadedLevel.objects[0];
-            std::cout << "First object type: " << PrimitiveTypeToString(loadedObject.type) << "\n";
-            std::cout << "Position: " << loadedObject.position.x << ", " << loadedObject.position.y << ", " << loadedObject.position.z << "\n";
-        }
     }
+    // IF NOT, then create
     else{
-        std::cout << "Failed to load sample.level\n";
+        std::cout << "sample.level not found, creating default level\n";
+
+        LevelObject obj;
+        obj.type = PrimitiveType::Capsule;
+        obj.position = glm::vec3(0.0f, 1.0f, 0.0f);
+        obj.scale = glm::vec3(1.0f, 2.0f, 1.0f);
+        obj.hasRigidBody = true;
+        loadedLevel.objects.push_back(obj);
+
+        if (SaveLevelToFile(loadedLevel, "sample.level")){
+            std::cout << "Created sample.level successfully\n";
+        }
+        else{
+            std::cout << "Failed to create sample.level\n";
+        }
     }
 
     // Setup our shaders
@@ -104,12 +100,16 @@ int main()
     camera.cameraMoveSpeed = cameraNormalSpeed;
     glEnable(GL_DEPTH_TEST);
 
+    // Reusable Base Primitives (for the .level tings)
+    Quad plane(glm::vec3(-0.5f, 0.0f, -0.5f), glm::vec3( 0.5f, 0.0f, -0.5f), glm::vec3(-0.5f, 0.0f,  0.5f), glm::vec3( 0.5f, 0.0f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f));
+    Cube cube(glm::vec3(0, 0, 0), 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+    Sphere sphere(glm::vec3(0, 0, 0), 0.5f, glm::vec3(1.0f, 1.0f, 1.0f));
+    Capsule capsule(glm::vec3(0, 0, 0), 0.5f, 2.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+
     // Make textures if needed
     
 
     // Make our Objects
-    Cube cube = Cube(glm::vec3(0, 0, 0), 1, glm::vec3(0.33f, 0.67f, 1));
-    Capsule capsule = Capsule(glm::vec3(2, 2, 0), 1, 3, glm::vec3(0.33f, 0.67f, 1));
 
     
     // Setup IMGUI
@@ -168,8 +168,9 @@ int main()
         
 
         // Render our shits
-        cube.Draw(shaderProgram);
-        capsule.Draw(shaderProgram);
+        for (const LevelObject& object : loadedLevel.objects){
+            DrawLevelObject(object, plane, cube, sphere, capsule, shaderProgram);
+        }
 
         // Setup IMGUI
         ImGui_ImplOpenGL3_NewFrame();
