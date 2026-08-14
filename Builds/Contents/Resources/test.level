@@ -1,0 +1,46 @@
+{
+	"objects": [
+
+	{		"type": "capsule",
+		"position": [0, 1, 0],
+		"rotation": [45, 0, 0],
+		"scale": [1, 1, 1],
+		"hasRigidBody": true
+	},
+
+	{		"type": "sphere",
+		"position": [0, 0, 0],
+		"rotation": [45, 0, 0],
+		"scale": [1, 1, 1],
+		"hasRigidBody": true
+	},
+
+	{		"type": "plane",
+		"position": [0, 0, 0],
+		"rotation": [0, 0, 0],
+		"scale": [8, 1, 8],
+		"hasRigidBody": false
+	},
+
+	{		"type": "plane",
+		"position": [10.6, -19.3, 0],
+		"rotation": [0, 0, 0],
+		"scale": [8, 1, 8],
+		"hasRigidBody": false
+	},
+
+	{		"type": "plane",
+		"position": [0, 0, 0],
+		"rotation": [0, 0, 0],
+		"scale": [8, 1, 8],
+		"hasRigidBody": false
+	},
+
+	{		"type": "sphere",
+		"position": [0, -1, 0],
+		"rotation": [0, 0, 0],
+		"scale": [1, 1, 1.4],
+		"hasRigidBody": false
+	}
+  ]
+}

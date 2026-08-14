@@ -68,25 +68,26 @@ bool SaveLevelToFile(const LevelData& level, const std::string& filePath){
 
     // Then JSON format
     file << "{\n";
-    file << "  \"objects\": [\n";
+    file << "\t\"objects\":\n";
+    file << "\t[\n";
 
     for (size_t i = 0; i < level.objects.size(); i++){
         const LevelObject& object = level.objects[i];
 
-        file << "    {\n";
-        file << "      \"type\": \"" << PrimitiveTypeToString(object.type) << "\",\n";
-        file << "      \"position\": [" << object.position.x << ", " << object.position.y << ", " << object.position.z << "],\n";
-        file << "      \"rotation\": [" << object.rotation.x << ", " << object.rotation.y << ", " << object.rotation.z << "],\n";
-        file << "      \"scale\": [" << object.scale.x << ", " << object.scale.y << ", " << object.scale.z << "],\n";
-        file << "      \"hasRigidBody\": " << (object.hasRigidBody ? "true" : "false") << "\n";
-        file << "    }";
+        file << "\t\t{\n";
+        file << "\t\t\t\"type\": \"" << PrimitiveTypeToString(object.type) << "\",\n";
+        file << "\t\t\t\"position\": [" << object.position.x << ", " << object.position.y << ", " << object.position.z << "],\n";
+        file << "\t\t\t\"rotation\": [" << object.rotation.x << ", " << object.rotation.y << ", " << object.rotation.z << "],\n";
+        file << "\t\t\t\"scale\": [" << object.scale.x << ", " << object.scale.y << ", " << object.scale.z << "],\n";
+        file << "\t\t\t\"hasRigidBody\": " << (object.hasRigidBody ? "true" : "false") << "\n";
+        file << "\t\t}";
 
         if (i < level.objects.size() - 1) file << ",";
 
         file << "\n";
     }
 
-    file << "  ]\n";
+    file << "\t]\n";
     file << "}\n";
 
     return true;
