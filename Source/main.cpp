@@ -34,6 +34,7 @@
 #include "shaders_reader.h"
 #include "level_data.h"
 #include "level_bios.h"
+#include "level_editor.h"
 #include "level_renderer.h"
 
 // Prototypes
@@ -48,36 +49,9 @@ int main()
     GLFWwindow* window = SetupWindow(SCR_WIDTH, SCR_HEIGHT, "NARANJO GDENG03", nullptr, nullptr);
     if (window == nullptr) return -1;
 
-    // TEST FOR LEVEL
-    // bool didSave = SaveLevelToFile(level, "sample.level");
-    // if (didSave) std::cout << "Saved sample.level successfully\n";
-    // else std::cout << "Failed to save sample.level\n";
-
-    // Load the level
-    LevelData loadedLevel;
-
-    // IF HASm, then load it
-    if (LoadLevelFromFile(loadedLevel, "sample.level")){ 
-        std::cout << "Loaded " << loadedLevel.objects.size() << " object(s)\n";
-    }
-    // IF NOT, then create
-    else{
-        std::cout << "sample.level not found, creating default level\n";
-
-        LevelObject obj;
-        obj.type = PrimitiveType::Capsule;
-        obj.position = glm::vec3(0.0f, 1.0f, 0.0f);
-        obj.scale = glm::vec3(1.0f, 2.0f, 1.0f);
-        obj.hasRigidBody = true;
-        loadedLevel.objects.push_back(obj);
-
-        if (SaveLevelToFile(loadedLevel, "sample.level")){
-            std::cout << "Created sample.level successfully\n";
-        }
-        else{
-            std::cout << "Failed to create sample.level\n";
-        }
-    }
+    LevelData level;
+    LevelEditorState levelEditorState;
+    LoadLevelOrCreateDefault(level, levelEditorState.filePath.data());
 
     // Setup our shaders
     unsigned int vertexShader = CompileShader(GL_VERTEX_SHADER, "Shaders/default.vert");
@@ -88,6 +62,7 @@ int main()
     glm::dvec2 currentMousePosition = {0.0, 0.0};
     glm::vec2 lastMousePosition = {SCR_WIDTH / 2.0f, SCR_HEIGHT / 2.0f};
     float mouseSensitivity = 0.1f;
+    bool wasRightMouseHeld = false;
 
     // Setup Key Input
     glfwSetKeyCallback(window, key_callback);
@@ -106,16 +81,9 @@ int main()
     Sphere sphere(glm::vec3(0, 0, 0), 0.5f, glm::vec3(1.0f, 1.0f, 1.0f));
     Capsule capsule(glm::vec3(0, 0, 0), 0.5f, 2.0f, glm::vec3(1.0f, 1.0f, 1.0f));
 
-    // Make textures if needed
-    
-
-    // Make our Objects
-
-    
     // Setup IMGUI
     SetUpImGui(window);
-    ImGuiIO& io = ImGui::GetIO();
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    ImVec4 clear_color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
     // UPDATE EVERY FRAME =====================================================
     while (!glfwWindowShouldClose(window))
@@ -128,17 +96,25 @@ int main()
 
         lastMousePosition.x = (float)currentMousePosition.x;
         lastMousePosition.y = (float)currentMousePosition.y;
-        xOffset *= mouseSensitivity;
-        yOffset *= mouseSensitivity;
-
-        // Hide Mouse
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // We hide + lock the mouse
-
-        // if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT)) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // We hide + lock the mouse
-        // else glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
         // Check for Key Inputs
         glfwPollEvents();
+
+        bool isRightMouseHeld = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS;
+
+        if (isRightMouseHeld) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        else glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
+        if (!isRightMouseHeld || !wasRightMouseHeld){
+            lastMousePosition.x = (float)currentMousePosition.x;
+            lastMousePosition.y = (float)currentMousePosition.y;
+            xOffset = 0.0f;
+            yOffset = 0.0f;
+        }
+        else{
+            xOffset *= mouseSensitivity;
+            yOffset *= mouseSensitivity;
+        }
 
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) camera.MovePosition('F');
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) camera.MovePosition('B');
@@ -150,7 +126,8 @@ int main()
         if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) camera.cameraMoveSpeed = cameraFastSpeed;
         else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE) camera.cameraMoveSpeed = cameraNormalSpeed;
 
-        camera.RotateByMouse(xOffset, yOffset);
+        if (isRightMouseHeld) camera.RotateByMouse(xOffset, yOffset);
+        wasRightMouseHeld = isRightMouseHeld;
 
         // Setup background
         // glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -168,7 +145,7 @@ int main()
         
 
         // Render our shits
-        for (const LevelObject& object : loadedLevel.objects){
+        for (const LevelObject& object : level.objects){
             DrawLevelObject(object, plane, cube, sphere, capsule, shaderProgram);
         }
 
@@ -176,29 +153,7 @@ int main()
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-
-        /*
-        {
-            static int counter = 0;
-
-            ImGui::Begin("Epic Credits");
-
-            ImGui::Text("GDENG03 Engine by Johann Naranjo");
-            ImGui::Text("Done on OpenGL on Mac OS");
-            ImGui::ColorEdit3("clear color", (float*)&clear_color);
-
-            if (ImGui::Button("Say Wallahi Bro")){
-                std::cout << "Wallahi" << std::endl;
-                counter++;
-            }
-
-            ImGui::SameLine();
-            ImGui::Text("counter = %d", counter);
-
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-            ImGui::End();
-        }
-        */
+        DrawLevelEditor(level, levelEditorState);
 
         // Render IMGUI Stuff
         ImGui::Render();
