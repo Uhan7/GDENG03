@@ -1,0 +1,80 @@
+{
+    "objects": [
+        {
+            "type": "capsule",
+            "position": [
+                -3.299999952316284,
+                4.5,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                89.0
+            ],
+            "scale": [
+                2.200000047683716,
+                1.0,
+                1.0
+            ],
+            "hasRigidBody": false
+        },
+        {
+            "type": "capsule",
+            "position": [
+                2.200000047683716,
+                5.699999809265137,
+                0.0
+            ],
+            "rotation": [
+                30.000003814697267,
+                89.00000762939453,
+                0.0
+            ],
+            "scale": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "hasRigidBody": false
+        },
+        {
+            "type": "capsule",
+            "position": [
+                0.0,
+                6.199999809265137,
+                0.0
+            ],
+            "rotation": [
+                89.00005340576172,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.5,
+                1.0
+            ],
+            "hasRigidBody": false
+        },
+        {
+            "type": "plane",
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                8.0,
+                1.0,
+                8.0
+            ],
+            "hasRigidBody": false
+        }
+    ]
+}

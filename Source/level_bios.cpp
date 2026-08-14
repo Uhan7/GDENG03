@@ -40,6 +40,16 @@ static bool ParseJsonVec3Value(const std::string& line, glm::vec3& outValue){
     return static_cast<bool>(iss >> outValue.x >> outValue.y >> outValue.z);
 }
 
+static bool ReadJsonVec3Value(std::ifstream& file, std::string line, glm::vec3& outValue){
+    while (line.find(']') == std::string::npos){
+        std::string nextLine;
+        if (!std::getline(file, nextLine)) return false;
+        line += Trim(nextLine);
+    }
+
+    return ParseJsonVec3Value(line, outValue);
+}
+
 static bool ParseJsonBoolValue(const std::string& line, bool& outValue){
     size_t colon = line.find(':');
     if (colon == std::string::npos) return false;
@@ -149,9 +159,9 @@ bool LoadLevelFromFile(LevelData& level, const std::string& filePath){
             std::string typeText;
             if (ParseJsonStringValue(trimmed, typeText)) foundType = StringToPrimitiveType(typeText, currentObject.type);
         }
-        else if (trimmed.find("\"position\"") != std::string::npos) foundPosition = ParseJsonVec3Value(trimmed, currentObject.position);
-        else if (trimmed.find("\"rotation\"") != std::string::npos) foundRotation = ParseJsonVec3Value(trimmed, currentObject.rotation);
-        else if (trimmed.find("\"scale\"") != std::string::npos) foundScale = ParseJsonVec3Value(trimmed, currentObject.scale);
+        else if (trimmed.find("\"position\"") != std::string::npos) foundPosition = ReadJsonVec3Value(file, trimmed, currentObject.position);
+        else if (trimmed.find("\"rotation\"") != std::string::npos) foundRotation = ReadJsonVec3Value(file, trimmed, currentObject.rotation);
+        else if (trimmed.find("\"scale\"") != std::string::npos) foundScale = ReadJsonVec3Value(file, trimmed, currentObject.scale);
         else if (trimmed.find("\"hasRigidBody\"") != std::string::npos) foundRigidBodyField = ParseJsonBoolValue(trimmed, currentObject.hasRigidBody);
     }
 

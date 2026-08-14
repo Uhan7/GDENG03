@@ -1,0 +1,40 @@
+{
+	"objects":
+	[
+		{
+			"type": "cube",
+			"position": [0.72, 2.39, 1.62],
+			"rotation": [0, 0, 0],
+			"scale": [1, 1, 1],
+			"hasRigidBody": false
+		},
+		{
+			"type": "capsule",
+			"position": [-3.3, 4.5, 0],
+			"rotation": [0, 0, 89],
+			"scale": [2.2, 1, 1],
+			"hasRigidBody": false
+		},
+		{
+			"type": "capsule",
+			"position": [2.2, 5.7, 0],
+			"rotation": [30, 89.00001, 0],
+			"scale": [2, 2, 2],
+			"hasRigidBody": false
+		},
+		{
+			"type": "capsule",
+			"position": [0, 6.2, 0],
+			"rotation": [89.00005, 0, 0],
+			"scale": [1, 1.5, 1],
+			"hasRigidBody": false
+		},
+		{
+			"type": "plane",
+			"position": [0, 0, 0],
+			"rotation": [0, 0, 0],
+			"scale": [8, 1, 8],
+			"hasRigidBody": false
+		}
+	]
+}
