@@ -1,0 +1,33 @@
+{
+	"objects":
+	[
+		{
+			"type": "plane",
+			"position": [0, 0, 0],
+			"rotation": [0, 0, 0],
+			"scale": [8, 1, 8],
+			"hasRigidBody": false
+		},
+		{
+			"type": "cube",
+			"position": [0, 0.5, 0],
+			"rotation": [0, 0, 0],
+			"scale": [1, 1, 1],
+			"hasRigidBody": false
+		},
+		{
+			"type": "cube",
+			"position": [0, 1.7, -1.5],
+			"rotation": [0, 0, 0],
+			"scale": [1, 1, 1],
+			"hasRigidBody": false
+		},
+		{
+			"type": "cube",
+			"position": [-1.7, 2.1, -1.6],
+			"rotation": [0, 0, 0],
+			"scale": [1, 1, 1],
+			"hasRigidBody": false
+		}
+	]
+}
